@@ -69,6 +69,8 @@ void UART_Transmitt (unsigned char data){
 		
 }
 
+//dkjfkdjfjdkfkdjfkdfdf
+
 unsigned char UART_Receive (void){
 	
 	while (!(UCSR0A &(1<<RXC0)))
