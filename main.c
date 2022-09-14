@@ -2,7 +2,8 @@
  * Lab_TTK4155.c
  *
  * Created: 01.09.2022 15:17:23
- * Author : danie
+ * Modified: 14.09.2022 21:11
+ * Author : Daniel
  */ 
 
 #include <avr/io.h>
@@ -15,6 +16,7 @@
 #define BAUD 9600 
 #define MYUBRR FOSC/16/BAUD-1 
 #define BASE_ADDRESS 0x1000;
+
 
 void UART_init ( unsigned int ubrr );
 void UART_Transmitt (unsigned char data);
