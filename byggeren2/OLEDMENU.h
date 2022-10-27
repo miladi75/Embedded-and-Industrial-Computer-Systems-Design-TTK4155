@@ -60,8 +60,9 @@ void initRightSibling(menu_t* menu, menu_t* child);
 void initChildMenu(menu_t* menu, menu_t* childMenu);
 menu_t *oled_menu_init(void);
 
-
-
+void oled_print_menu();
+void oled_highscores();
+void oled_simple_menu();
 void navigateToParent(menu_t* thisMenu);
 
 void navigateToChild(menu_t* thisMenu);

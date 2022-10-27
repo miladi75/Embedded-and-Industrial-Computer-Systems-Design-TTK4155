@@ -8,6 +8,9 @@
 
 #include "OLEDMENU.h"
 
+#include "OLED.h"
+
+
 
 #define OLED_COMMAND_START 0x1000
 #define OLED_DATA_START 0x1200
@@ -53,6 +56,53 @@ void navigateToParent(menu_t* thisMenu){
 }
 
 void navigateToChild(menu_t* thisMenu){
+	
+}
+
+void oled_print_menu(){
+	
+	for(int i = 0; i <= 3; i++){
+		oled_pos(i,0);
+		oled_print("START GAME");
+	}
+	oled_print("START");
+	
+	
+}
+
+void oled_simple_menu(){
+	
+	oled_pos(0,5);
+	oled_print("MENU");
+	oled_pos(1,5);
+	oled_print("START GAME");
+	oled_pos(2,5);
+	oled_print("DIFF 1");
+	oled_pos(3,5);
+	oled_print("DIFF 2");
+	oled_pos(4,5);
+	oled_print("DIFF 3");
+	oled_pos(5,5);
+	oled_print("HIGHSCORES");
+	
+}
+
+int highscore[] = {5, 6, 8, 2, 1};
+	//ex, add highscore sort?
+	
+void oled_highscores(){
+	oled_clear();
+	oled_pos(0,0);
+	
+	for( int i = 0; i < 6; i++){
+		oled_pos(i,5);
+	
+		oled_print("%d trym");
+		//oled_print(highscore[i]);
+		
+		
+	}
+	
 	
 }
 

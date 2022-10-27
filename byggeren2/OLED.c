@@ -65,7 +65,15 @@ void oled_goto_column(int column) {
 void oled_pos(int line, int coll){
 	oled_goto_line(line);
 	oled_goto_column(coll);
+	
 }
+
+//int pos2menu(int line){
+	//switch(line){
+		//case 0:
+			//
+	//}
+//}
 
 
 void oled_print_char(char ch) {
@@ -90,10 +98,20 @@ void oled_print( char ch[]) {
 
 void OLED_print_arrow ( int row , int col )
 {
-	//OLED_pos ( row , col );
+	oled_pos( row , col );
 	oled_write_data (0b00011000 );
 	oled_write_data (0b00011000 );
 	oled_write_data (0b01111110 );
 	oled_write_data (0b00111100 );
 	oled_write_data (0b00011000 );
+}
+
+void OLED_clear_arrow ( int row , int col )
+{
+	oled_pos( row , col );
+	oled_write_data (0b00000000 );
+	oled_write_data (0b00000000 );
+	oled_write_data (0b00000000 );
+	oled_write_data (0b00000000 );
+	oled_write_data (0b00000000 );
 }

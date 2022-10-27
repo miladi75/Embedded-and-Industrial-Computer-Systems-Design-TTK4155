@@ -18,8 +18,9 @@ void oled_clear();
 
 void oled_goto_line(int n);
 void oled_goto_column(int column);
-void oled_pos(int line, int coll);
 
+void oled_pos(int line, int coll);
+int pos2menu(int line, int col);
 
 void oled_print_char(char ch);
 
@@ -28,7 +29,7 @@ void oled_print( char ch[]);
 
 
 
-void OLED_print_arrow ( int row , int col );
+void OLED_print_arrow ( int row , int col );void OLED_clear_arrow ( int row , int col );
 
 
 

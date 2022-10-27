@@ -33,6 +33,11 @@ void test_joystick(uint16_t addr ){
 	_delay_ms(200);
 }
 
+int joy_click() {
+	DDRB &= ~(1 << DDB0);
+	return (PINB & (1 << DDB0));
+	
+}
 
 
 int joy_read_x() {
@@ -47,9 +52,9 @@ int joy_read_x() {
 	int pos = ( verdix - x_offset) * 100 / 127;
 	int offset = 127 - x_offset;
 	if (pos > 0) {
-		pos *=  100 / (100 + offset);
+		pos = (pos *  100) / (100 + offset);
 		} else if (pos < 0) {
-		pos *= 100 / (100 - offset);
+		pos = (pos * 100) / (100 - offset);
 	}
 	return pos;
 }
@@ -66,9 +71,9 @@ int joy_read_y() {
 	int pos = ( verdiy - y_offset) * 100 / 127;
 	int offset = 127 - y_offset;
 	if (pos > 0) {
-		pos = pos * 100 / (100 + offset);
+		pos = (pos * 100) / (100 + offset);
 		} else if (pos < 0) {
-		pos = pos * 100 / (100 - offset);
+		pos = (pos * 100) / (100 - offset);
 	}
 	return pos;
 }
@@ -100,6 +105,37 @@ int slide_read_r() {
 	
 	return pos;
 }
+
+joystick_dir_t   joystick_pos() {
+	
+	int x = joy_read_x();
+	int y = joy_read_y();
+	
+	if (abs(x) >= abs(y)){
+		if (abs(x) < 10){
+			return NEUTRAL;
+		}
+		else if (x < 50){
+			return LEFT;
+		}
+		else if (x > 50) {
+			return RIGHT;
+		}
+	}
+	else{
+		if (abs(y) < 65){
+			return NEUTRAL;
+		}
+		else if (y < -50){
+			return DOWN;
+		}
+		else if (y > 50) {
+			return UP;
+		}
+	}
+	printf("pos: %d", joystick_pos());
+}
+
 
 int getCurrentJoystickDirection(){
 	int joyPos = joystick_pos();

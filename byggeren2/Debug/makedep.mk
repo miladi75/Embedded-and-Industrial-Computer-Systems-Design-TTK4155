@@ -6,9 +6,13 @@ JOYSTICK.c
 
 main.c
 
+MCP.c
+
 OLED.c
 
 OLEDMENU.c
+
+SPI.c
 
 SRAM.c
 
