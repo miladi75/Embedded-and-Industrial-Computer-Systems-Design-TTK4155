@@ -17,6 +17,14 @@
 #include "OLEDMENU.h"
 #include "JOYSTICK.h"
 
+#include "CAN.h"
+#include "MCP.h"
+#include "SPI.h"
+#include "MCP2515.h"
+
+
+
+
 
 #define FOSC 4915200
 #define BAUD 9600
@@ -96,58 +104,86 @@ int main(void)
 
 	
 	
-	//oled_highscores();
 	
+	//CAN TEST
+	UART_init(MYUBRR);
+	
+	//uart_init(UBRR);
+	can_init(); // Denne initierer mcp, som initierer spi.
+	mcp_set_mode(MODE_NORMAL); //MODE_LOOPBACK
+
+	// Sender melding
+	message_t* message = {
+		1, // Id
+		32, // Lengde på dataen
+		"NEW MESSAGE" // Data. Maks åtte byte
+	};
+	can_send(message); // Sender melding
+
+	// Nå er meldingen sendt. Fordi vi er i loopbackmodus blir meldingen umiddelbart "mottatt" ac MCP2515.
+
+	// Mottar melding
+	message_t receive = can_receive();
+	printf("Heisann sveisann, vi har fått ei melding.\r\n");
+	printf("Id: %d \r\n", receive.id);
+	printf("Lengde: %d \r\n", receive.length);
+	printf("Melding: %s \r\n\r\n", receive.data);
+
+	return 0;
+		
 	
 		while (1) 
 		{
+			//spi_write("g");
+			//_delay_ms(1000);
+			
 			//joystick_pos();
-			printf("X Pos: %d	", joy_read_x());
-			printf("Y Pos: %d		", joy_read_y());
-			printf("Line:  %d \n",line);
-			
-		
-			//_delay_us(500);
-			joystick_dir_t dir = joystick_pos();
-			print_dir_type(dir);
-			
-			if (joy_read_x() < -50 && menu > 0) {
-				menu--;
-				oled_clear();
-			}
-			if (menu == 0) {
-				oled_simple_menu();
-			}	
-				
-			if (joy_read_y() < -50 && line < 7) {		
-				line++;
-				OLED_print_arrow(line,0);
-				OLED_clear_arrow(line-1,0);	
-				_delay_ms(500);	
-			}
-			
-			if (joy_read_y() > 50 && line > 0) {
-				line--;
-				OLED_print_arrow(line,0);
-				OLED_clear_arrow(line+1,0);		
-				_delay_ms(500);
-	
-			}
-			
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();		
-				menu = 1;
-					
-			}
-			if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
-				oled_highscores();
-				menu = 1;
-				
-			}
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();
-				
-			}
+			//printf("X Pos: %d	", joy_read_x());
+			//printf("Y Pos: %d		", joy_read_y());
+			//printf("Line:  %d \n",line);
+			//
+		//
+			////_delay_us(500);
+			//joystick_dir_t dir = joystick_pos();
+			//print_dir_type(dir);
+			//
+			//if (joy_read_x() < -50 && menu > 0) {
+				//menu--;
+				//oled_clear();
+			//}
+			//if (menu == 0) {
+				//oled_simple_menu();
+			//}	
+				//
+			//if (joy_read_y() < -50 && line < 7) {		
+				//line++;
+				//OLED_print_arrow(line,0);
+				//OLED_clear_arrow(line-1,0);	
+				//_delay_ms(500);	
+			//}
+			//
+			//if (joy_read_y() > 50 && line > 0) {
+				//line--;
+				//OLED_print_arrow(line,0);
+				//OLED_clear_arrow(line+1,0);		
+				//_delay_ms(500);
+	//
+			//}
+			//
+			//if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				//oled_highscores();		
+				//menu = 1;
+					//
+			//}
+			//if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
+				//oled_highscores();
+				//menu = 1;
+				//
+			//}
+			//if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				//oled_highscores();
+				//
+			//}
 		
 		
 		
