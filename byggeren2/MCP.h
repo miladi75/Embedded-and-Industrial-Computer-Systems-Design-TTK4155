@@ -16,7 +16,7 @@ void mcp_init();
 uint8_t mcp_read(uint8_t address);
 
 
-void mcp_write(uint8_t address, uint8_t data);
+void mcp_write(uint8_t address, char data);//uint8_t
 
 
 void mcp_request_to_send(int buffer_number);

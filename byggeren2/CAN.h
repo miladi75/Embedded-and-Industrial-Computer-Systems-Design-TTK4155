@@ -23,7 +23,7 @@ typedef struct Message {
 	unsigned int id; /**< The id of the message */
 	uint8_t length;  /**< The length of the data bytes of the message */
 	char data[8];    /**< The data of the message */
-} message_t, *message_ptr;
+} message_t;
 
 // CAN ID's for messages sent from node1
 enum {
@@ -54,7 +54,7 @@ void can_init();
  * TXB0DLC register, and writes data bytes to the TXBnDm register(s).
  * @param[in] message Takes a pointer to the Message-struct we would like to send.
  */
-void can_send(message_ptr message);
+void can_send(message_t *message);
 
 
 /**
@@ -63,7 +63,7 @@ void can_send(message_ptr message);
  * from the RXBnDm register(s).
  * @return The data byte(s) of the received message from the RXBnDm register(s).
  */
-message_t can_receive();
+void can_receive(message_t *msg);
 
 
 

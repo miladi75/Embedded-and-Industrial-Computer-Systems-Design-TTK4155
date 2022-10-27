@@ -9,15 +9,19 @@
 #include "SPI.h"
 #include "MCP2515.h"
 #include <stdio.h>
+#include <util/delay.h>
+
 
 void mcp_init() {
 	spi_master_init();
 	mcp_reset();
 
+	_delay_ms(1); 
+	
 	// Self-test.
 	uint8_t value = mcp_read(MCP_CANSTAT);
 	if ((value & MODE_MASK) != MODE_CONFIG) {
-		printf("MCP!config %x \r\n", value);
+		printf("MCP!config/MCP_CANSTAT %x \r\n", value);
 	}
 }
 
@@ -31,7 +35,7 @@ uint8_t mcp_read(uint8_t address) {
 	return data;
 }
 
-void mcp_write(uint8_t address, uint8_t data) {
+void mcp_write(uint8_t address, char data) {//uint8_t
 	spi_clear_ss();
 	spi_write(MCP_WRITE);
 	spi_write(address);

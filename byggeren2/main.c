@@ -86,15 +86,30 @@ int main(void)
 	//oled_goto_line(0);
 	//oled_goto_column(0);
 	
-	for(int i = 0; i <= 3; i++){
+	//for(int i = 0; i <= 3; i++){
 		//oled_pos(i,4);
 		//oled_print("START GAME");
 
 		
-	}   
+	//}   
 	
-
+//
+	//mcp_init();
+	//
+	//// Setter MCP i loopbackmodus og sjekker CANSTAT:
+	//mcp_set_mode(MODE_LOOPBACK);
+	//printf("mode: %x\r\n", mcp_read(MCP_CANSTAT));
+	//// Når MCP står i loopbackmodus skal CANSTAT være 0b01000000 aka 0x40
+//
+	//// Skriver en tilfeldig byte (0xA7) til MCP-sendebuffer0 og leser fra mottaksbuffer0
+	//// Her bør man lese det samme som man sender så lenge MCPen står i loopbackmodus.
+	//mcp_write(MCP_TXB0SIDH, 0xA7); // Skriver 0xA7 til sende-buffer nr. 0
+	//mcp_request_to_send(0); // Sender 0xA7 fra bufferen ut på CAN-bussen
+	//uint8_t byte = mcp_read(MCP_RXB0SIDH); // Leser fra mottaksbuffer nr. 0
+	//printf("mottar: %x\r\n", byte); //Skal være samme som man sender, altså 0xA7
 	
+	//spi_set_ss();
+	//spi_clear_ss;
 	
 	//getCurrentJoystickDirection();
 	//joystick_pos();
@@ -105,85 +120,104 @@ int main(void)
 	
 	
 	
-	//CAN TEST
-	UART_init(MYUBRR);
+	//can test
 	
-	//uart_init(UBRR);
-	can_init(); // Denne initierer mcp, som initierer spi.
-	mcp_set_mode(MODE_NORMAL); //MODE_LOOPBACK
+	message_t message;
+	message.id		= 50;
+	message.data[0]	= 'H';
+	message.data[1]	= 'e';
+	message.data[2]	= 'l';
+	message.data[3]	= 'l';
+	message.data[4]	= 'o';
+	message.length	= 5;
 
-	// Sender melding
-	message_t* message = {
-		1, // Id
-		32, // Lengde på dataen
-		"NEW MESSAGE" // Data. Maks åtte byte
-	};
-	can_send(message); // Sender melding
+	
+	can_init(); //
+	mcp_set_mode(MODE_LOOPBACK); //mode_loopback 0x40
 
-	// Nå er meldingen sendt. Fordi vi er i loopbackmodus blir meldingen umiddelbart "mottatt" ac MCP2515.
+	// sender melding
+	//message_t message = {
+		//3, // id
+		//6, //data length
+		//"abcdef" // data max 8 bytes
+	//};
+	//
+	printf("----->test sendt\r\n");
+	
+	printf("id: %d \r\n", message.id);
+	printf("lengde: %d \r\n", message.length);
+	printf("melding: %s \r\n\r\n", message.data);
 
-	// Mottar melding
-	message_t receive = can_receive();
-	printf("Heisann sveisann, vi har fått ei melding.\r\n");
-	printf("Id: %d \r\n", receive.id);
-	printf("Lengde: %d \r\n", receive.length);
-	printf("Melding: %s \r\n\r\n", receive.data);
 
-	return 0;
+	can_send(&message);
+
+	_delay_ms(600);
+	
+	// mottar melding
+	message_t mymsg;
+	can_receive(&mymsg);
+	
+	printf("msg received\r\n");
+	printf("id: %d \r\n", mymsg.id);
+	printf("lengde: %d \r\n", mymsg.length);
+	printf("melding: %s \r\n\r\n", mymsg.data);
+
 		
-	
+		
 		while (1) 
-		{
-			//spi_write("g");
-			//_delay_ms(1000);
+		{	
 			
-			//joystick_pos();
+			
+			spi_write("g");
+			_delay_ms(1000);
+			
+			joystick_pos();
 			//printf("X Pos: %d	", joy_read_x());
 			//printf("Y Pos: %d		", joy_read_y());
 			//printf("Line:  %d \n",line);
-			//
-		//
-			////_delay_us(500);
-			//joystick_dir_t dir = joystick_pos();
-			//print_dir_type(dir);
-			//
-			//if (joy_read_x() < -50 && menu > 0) {
-				//menu--;
-				//oled_clear();
-			//}
-			//if (menu == 0) {
-				//oled_simple_menu();
-			//}	
-				//
-			//if (joy_read_y() < -50 && line < 7) {		
-				//line++;
-				//OLED_print_arrow(line,0);
-				//OLED_clear_arrow(line-1,0);	
-				//_delay_ms(500);	
-			//}
-			//
-			//if (joy_read_y() > 50 && line > 0) {
-				//line--;
-				//OLED_print_arrow(line,0);
-				//OLED_clear_arrow(line+1,0);		
-				//_delay_ms(500);
-	//
-			//}
-			//
-			//if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				//oled_highscores();		
-				//menu = 1;
-					//
-			//}
-			//if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
-				//oled_highscores();
-				//menu = 1;
-				//
-			//}
-			//if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				//oled_highscores();
-				//
-			//}
+			
+		
+			//_delay_us(500);
+			joystick_dir_t dir = joystick_pos();
+			print_dir_type(dir);
+			
+			if (joy_read_x() < -50 && menu > 0) {
+				menu--;
+				oled_clear();
+			}
+			if (menu == 0) {
+				oled_simple_menu();
+			}	
+				
+			if (joy_read_y() < -50 && line < 7) {		
+				line++;
+				OLED_print_arrow(line,0);
+				OLED_clear_arrow(line-1,0);	
+				_delay_ms(500);	
+			}
+			
+			if (joy_read_y() > 50 && line > 0) {
+				line--;
+				OLED_print_arrow(line,0);
+				OLED_clear_arrow(line+1,0);		
+				_delay_ms(500);
+	
+			}
+			
+			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				oled_highscores();		
+				menu = 1;
+					
+			}
+			if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
+				oled_highscores();
+				menu = 1;
+				
+			}
+			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				oled_highscores();
+				
+			}
 		
 		
 		

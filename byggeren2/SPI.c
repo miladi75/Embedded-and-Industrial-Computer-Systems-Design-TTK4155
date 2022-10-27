@@ -8,7 +8,7 @@
 #include "SPI.h"
 #include "UART.h"
 #include <avr/interrupt.h>
-//#include "MCP2515.h"
+#include "MCP2515.h"
 #include <stdio.h>
 
 #define DDR_SPI DDRB
@@ -18,11 +18,10 @@
 #define DD_SCK PB7
 
 void spi_master_init() {
-	// Set MOSI and SCK - og SS - output, all others input
+	// Set MOSI and SCK - og chipS(ss) - output, all others input
 	DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK)|(1<<DD_SS);
 	// Enable SPI, Master, set clock rate fck/16
 	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0)|(1<<SPIE);
-
 	spi_set_ss();
 }
 
@@ -42,18 +41,22 @@ void spi_write(char cData) {
 }
 
 uint8_t spi_read() {
-	SPDR = 0xFF;
+	SPDR = 0xFF; //0x00
 	// Wait for reception complete
 	while(!(SPSR & (1<<SPIF))) {
 	}
 	// Return data register
 	return SPDR;
+	
+
 }
 
 void spi_set_ss() {
 	PORTB |= (1 << DD_SS);
+	//(PORTB |= (1 << DD_SS));
 }
 
 void spi_clear_ss() {
 	PORTB &= ~(1 << DD_SS);
+	
 }
