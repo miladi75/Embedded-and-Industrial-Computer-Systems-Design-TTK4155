@@ -18,6 +18,7 @@ int main(void)
 {
     /* Initialize the SAM system */
     SystemInit();
+	//WDT->WDT_MR = WDT_MR_WDDIS; //disable watchdog timer
 	configure_uart();
 	can_init_def_tx_rx_mb(0x00290165);
 	
