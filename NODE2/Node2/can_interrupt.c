@@ -18,7 +18,12 @@
 #include "can_controller.h"
 
 #define DEBUG_INTERRUPT 0
-
+volatile char e = 'e';
+uint16_t UP = 2;
+uint16_t DOWN = 3;
+uint16_t LEFT = 0;
+uint16_t RIGHT = 1;
+uint16_t NEUTRAL = 4;
 /**
  * \brief CAN0 Interrupt handler for RX, TX and bus error interrupts
  *
@@ -48,6 +53,53 @@ void CAN0_Handler( void )
 		else
 		{
 			printf("CAN0 message arrived in non-used mailbox\n\r");
+		}
+		
+		if (message.id == 50)
+		{
+			printf("melding");
+			printf("new message mb_id 2%c\n",e);
+			printf("id %d\n",message.id);
+			printf("length %d\n",message.data_length);
+			printf("data %c\n",message.data[0]);
+			printf("data %c\n",message.data[1]);
+			printf("data %c\n",message.data[2]);
+			printf("data %c\n",message.data[3]);
+			printf("data %c\n",message.data[4]);
+		}
+		
+		if (message.id == 1)
+		{
+			
+			//printf("new message%c\n",e);
+			//printf("id %d\n",message.id);
+			//printf("length %d\n",message.data_length);
+			//
+			if (message.data[0] == UP)
+			{
+				printf("up %c\n",e);
+				printf("%c\n",message.data[0]);
+			}
+			else if (message.data[0] == DOWN)
+			{
+				printf("down %c\n",e);
+				printf("%c\n",message.data[0]);
+			}
+			else if (message.data[0] == LEFT)
+			{
+				printf("left %c\n",e);
+				printf("%c\n",message.data[0]);
+			}
+			else if (message.data[0] == RIGHT)
+			{
+				printf("right %c\n",e);
+				printf("%c\n",message.data[0]);
+			}
+			else if (message.data[0] == NEUTRAL)
+			{
+				printf("neutral %c\n",e);
+				printf("%c\n",message.data[0]);
+			}
 		}
 
 		if(DEBUG_INTERRUPT)printf("message id: %d\n\r", message.id);
