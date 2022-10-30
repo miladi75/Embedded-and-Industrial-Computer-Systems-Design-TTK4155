@@ -177,6 +177,12 @@
     <Compile Include="Device_Startup\system_sam3xa.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Joystick.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -184,6 +190,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="printf-stdarg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uart.c">

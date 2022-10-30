@@ -68,7 +68,7 @@ void CAN0_Handler( void )
 			printf("data %c\n",message.data[4]);
 		}
 		
-		if (message.id == 1)
+		if (message.id == 10)
 		{
 			
 			//printf("new message%c\n",e);
@@ -100,6 +100,15 @@ void CAN0_Handler( void )
 				printf("neutral %c\n",e);
 				printf("%c\n",message.data[0]);
 			}
+		}
+		
+		
+		if (message.id == 20)
+		{
+			
+			//set_servo_pos(message.data[0]);
+			printf("x:%d    y%d\n",message.data[0],message.data[1]);
+			
 		}
 
 		if(DEBUG_INTERRUPT)printf("message id: %d\n\r", message.id);

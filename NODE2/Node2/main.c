@@ -11,6 +11,9 @@
 #include "printf-stdarg.h"
 #include "can_interrupt.h"
 #include "can_controller.h"
+#include "PWM.h"
+
+
 
 //#include <util/delay.h>
 
@@ -18,11 +21,12 @@ int main(void)
 {
     /* Initialize the SAM system */
     SystemInit();
-	//WDT->WDT_MR = WDT_MR_WDDIS; //disable watchdog timer
+	WDT->WDT_MR = WDT_MR_WDDIS; //disable watchdog timer
 	configure_uart();
 	can_init_def_tx_rx_mb(0x00290165);
+	PWM_init();
 	
-	
+	//set_servo_pos(1000);
 	
 	volatile char e = 'e';
 	//uint8_t mb_id = 1;
@@ -49,6 +53,7 @@ int main(void)
 	//
 	
     /* Replace with your application code */
+	set_servo_pos(1);
     while (1) 
     {
 	CAN0_Handler();	
