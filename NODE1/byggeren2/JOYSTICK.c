@@ -143,3 +143,28 @@ int getCurrentJoystickDirection(){
 	printf("\npos = %d\n", joyPos);
 	return 0;
 }
+
+
+void print_dir_type(joystick_dir_t dir){
+	switch(dir){
+		case UP:
+		printf("\nUP\n");
+		break;
+		case DOWN:
+		printf("\nDOWN\n");
+		break;
+		
+		case RIGHT:
+		printf("\nRIGHT\n");
+		break;
+		
+		case LEFT:
+		printf("\nLEFT\n");
+		break;
+
+		case NEUTRAL:
+		printf("\nNEUTRAL\n");
+		break;
+		
+	}
+}

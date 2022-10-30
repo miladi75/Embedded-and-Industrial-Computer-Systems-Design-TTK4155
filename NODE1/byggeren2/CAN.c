@@ -66,3 +66,51 @@ void can_receive(message_t *msg) {
 
 
 }
+
+
+//sending joysticck via CAN
+message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id){
+	
+	message_t message;
+	message.id	= can_id;
+	
+	switch(dir){
+		case UP:
+			message.data[0] = (uint8_t)UP;
+			break;
+		case DOWN:
+			message.data[0] = (uint8_t)DOWN;
+			break;
+		case RIGHT:
+			message.data[0] = (uint8_t)RIGHT;
+			break;
+		case LEFT:
+			message.data[0] = (uint8_t)LEFT;
+			break;
+		case NEUTRAL:
+			message.data[0] = (uint8_t)NEUTRAL;
+			break;
+		default:
+			printf("\nERROR, input not a joystick type\n");
+			break;
+	}
+	message.length = 1;
+	
+	return message;
+}
+
+
+//Send a text string over CAN
+message_t can_send_string(char* c, uint8_t size, uint8_t can_id){
+	message_t message;
+	message.id	= can_id;
+	message.length = size;
+	for(uint8_t i = 0 ; i< size; i++){
+		message.data[i] = c[i];
+		if(message.data[i]=='\0'){
+			return message;
+			break;
+		}
+	}
+	return message;
+}

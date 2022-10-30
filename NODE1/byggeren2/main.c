@@ -35,74 +35,6 @@ volatile int line = 0;
 volatile int menu = 0;
 
 
-void print_dir_type(joystick_dir_t dir){
-	switch(dir){
-		case UP:
-			printf("\nUP\n");
-			break;
-		case DOWN:
-			printf("\nDOWN\n");
-			break;
-			
-		case RIGHT:
-			printf("\nRIGHT\n");
-			break;
-		
-		case LEFT:
-			printf("\nLEFT\n");
-			break;
-
-		case NEUTRAL:
-			printf("\nNEUTRAL\n");
-			break;
-			
-	}
-}
-message_t fillCAN(char* c, uint8_t size, uint8_t can_id){
-	message_t message;
-	message.id	= can_id;
-	message.length = size;
-	for(uint8_t i = 0 ; i< size; i++){
-		message.data[i] = c[i];
-		if(message.data[i]=='\0'){
-			break;
-		}
-	}
-	return message;
-}
-
-
-message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id){
-	
-	message_t message;
-	message.id	= can_id;
-	
-	switch(dir){
-		case UP:
-			message.data[0] = (uint8_t)UP;
-			break;
-		case DOWN:
-			message.data[0] = (uint8_t)DOWN;
-			break;
-		case RIGHT:
-			message.data[0] = (uint8_t)RIGHT;
-			break;
-		case LEFT:
-			message.data[0] = (uint8_t)LEFT;
-			break;
-		case NEUTRAL:
-			message.data[0] = (uint8_t)NEUTRAL;
-			break;
-		default:
-			printf("\nERROR, input not a joystick type\n");
-			break;
-	}
-	message.length = 1;
-	
-	return message;
-}
-
-
 
 int main(void)
 {
@@ -172,26 +104,12 @@ int main(void)
 	
 	
 
-	//message_t message = fillCAN("LOLLOL", 6);
+	
 	
 	can_init(); //
-	//mcp_set_mode(MODE_LOOPBACK); //mode_loopback 0x40
-
-	// sender melding
-	//message_t message = {
-		//3, // id
-		//6, //data length
-		//"abcdef" // data max 8 bytes
-	//};
-	//
-	//message_t lolmsg  = fillCAN("LOL", 3, 1);
-	//printf("----->test sendt\r\n");
+	//mcp_set_mode(MODE_LOOPBACK); //mode_loopback 0x40	
+	
 	message_t message;
-	
-	
-	
-	
-	//
 	//printf("id: %d \r\n", message.id);
 	//printf("lengde: %d \r\n", message.length);
 	//printf("melding: %s \r\n\r\n", message.data);
@@ -201,10 +119,9 @@ int main(void)
 
 	_delay_ms(600);
 	
-	// mottar melding
+	// Receive message:
 	//message_t mymsg;
 	//can_receive(&mymsg);
-	//
 	//printf("msg received\r\n");
 	//printf("id: %d \r\n", mymsg.id);
 	//printf("lengde: %d \r\n", mymsg.length);
@@ -217,6 +134,7 @@ int main(void)
 			//spi_write("g");
 			joystick_dir_t dir = joystick_pos();
 			message = send_joystick_can(dir, 1);
+			
 			can_send(&message);
 			_delay_ms(100);
 			//print_dir_type(dir);

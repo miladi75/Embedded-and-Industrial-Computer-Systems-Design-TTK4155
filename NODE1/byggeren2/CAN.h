@@ -14,8 +14,8 @@
  * @brief A driver for the CAN which implements communication between nodes over CAN.
  */
 
- #include <avr/io.h>
-
+#include <avr/io.h>
+#include "JOYSTICK.h"
 /**
  * @struct A struct with the id, length of the data, and the data of the message.
  */
@@ -64,6 +64,12 @@ void can_send(message_t *message);
  * @return The data byte(s) of the received message from the RXBnDm register(s).
  */
 void can_receive(message_t *msg);
+
+//send joystick via can
+message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id);
+
+//send string message over can
+message_t can_send_string(char* c, uint8_t size, uint8_t can_id);
 
 
 
