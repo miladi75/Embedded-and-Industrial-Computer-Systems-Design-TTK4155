@@ -22,7 +22,7 @@
 typedef struct Message {
 	uint8_t id; /**< The id of the message */
 	uint8_t length;  /**< The length of the data bytes of the message */
-	char data[8];    /**< The data of the message */
+	int8_t  data[8];    /**< The data of the message */
 } message_t;
 
 // CAN ID's for messages sent from node1

@@ -23,10 +23,6 @@
 #include "SPI.h"
 #include "MCP2515.h"
 
-
-
-
-
 #define FOSC 4915200
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
@@ -34,6 +30,32 @@
 volatile int line = 0;
 volatile int menu = 0;
 
+typedef struct {
+	uint16_t x;
+	uint16_t y;
+}coord_t;
+
+message_t coord_via_CAN(coord_t xy, uint8_t msg_id){
+	
+	xy.x = (joy_read_x() + 93);
+	xy.y = (joy_read_y() + 94);
+	
+	message_t message;
+	message.length = 2;
+	message.id = msg_id;
+	message.data[0] = xy.x;
+	message.data[1] = xy.y;
+	 
+	return message;
+	
+}
+
+/**
+IR sensor(svart) langt bein VCC
+Hvit-Sensor: langt bein på VCC
+
+
+*/
 
 
 int main(void)
@@ -107,13 +129,15 @@ int main(void)
 	
 	
 	can_init(); //
-	//mcp_set_mode(MODE_LOOPBACK); //mode_loopback 0x40	
+	mcp_set_mode(MODE_NORMAL); //mode_loopback 0x40	
 	
 	message_t message;
+	
 	//printf("id: %d \r\n", message.id);
 	//printf("lengde: %d \r\n", message.length);
 	//printf("melding: %s \r\n\r\n", message.data);
-
+	coord_t xy_coor; 
+	
 
 	
 
@@ -132,11 +156,16 @@ int main(void)
 		while (1) 
 		{	
 			//spi_write("g");
-			joystick_dir_t dir = joystick_pos();
-			message = send_joystick_can(dir, 1);
 			
+			joystick_dir_t dir = joystick_pos();
+			//printf("x %d \n", joy_read_x());
+			//printf("y %d \n", joy_read_y());
+
+			
+			message = coord_via_CAN(xy_coor, 20);
 			can_send(&message);
-			_delay_ms(100);
+			
+			_delay_ms(500);
 			//print_dir_type(dir);
 			
 			if (joy_read_x() < -50 && menu > 0) {

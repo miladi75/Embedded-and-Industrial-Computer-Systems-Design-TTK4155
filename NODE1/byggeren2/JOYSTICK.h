@@ -13,6 +13,8 @@
 #include <stdio.h>
 
 typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL} joystick_dir_t;
+	
+
 
 void clk (int max);
 

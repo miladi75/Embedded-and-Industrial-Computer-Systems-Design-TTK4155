@@ -91,8 +91,8 @@ message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id){
 			message.data[0] = (uint8_t)NEUTRAL;
 			break;
 		default:
-			printf("\nERROR, input not a joystick type\n");
-			break;
+			printf("\nDEFAULT CASE in send_joystick_can(...) RUNNING\n");
+		
 	}
 	message.length = 1;
 	
