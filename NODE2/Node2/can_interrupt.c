@@ -58,7 +58,7 @@ void CAN0_Handler( void )
 		if (message.id == 50)
 		{
 			printf("melding");
-			printf("new message mb_id 2%c\n",e);
+			//printf("new message mb_id 2%c\n",e);
 			printf("id %d\n",message.id);
 			printf("length %d\n",message.data_length);
 			printf("data %c\n",message.data[0]);
@@ -106,8 +106,8 @@ void CAN0_Handler( void )
 		if (message.id == 20)
 		{
 			
-			//set_servo_pos(message.data[0]);
-			printf("x:%d    y%d\n",message.data[0],message.data[1]);
+			set_servo_pos(message.data[0]);
+			//printf("x:%d    y%d\n",message.data[0],message.data[1]);
 			
 		}
 
