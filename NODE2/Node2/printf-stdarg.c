@@ -41,9 +41,9 @@ static int prints(char **out, const char *string, int width, int pad)
 		register int len = 0;
 		register const char *ptr;
 		for (ptr = string; *ptr; ++ptr) ++len;
-		if (len >= width) width = 0;
+			if (len >= width) width = 0;
 		else width -= len;
-		if (pad & PAD_ZERO) padchar = '0';
+			if (pad & PAD_ZERO) padchar = '0';
 	}
 	if (!(pad & PAD_RIGHT)) {
 		for ( ; width > 0; --width) {

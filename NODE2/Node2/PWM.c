@@ -8,8 +8,8 @@
 #include "PWM.h"
 
 void PWM_init(void){
-	PMC->PMC_PCER1 |= PMC_PCER1_PID36;
 	
+	PMC->PMC_PCER1 |= PMC_PCER1_PID36;
 	PIOC->PIO_OER |= PIO_PC19;
 	PIOC->PIO_PDR |= PIO_PC19;
 	PIOC->PIO_ABSR |= PIO_ABSR_P19;

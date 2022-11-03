@@ -29,28 +29,28 @@ int main(void)
 	//set_servo_pos(1000);
 	
 	volatile char e = 'e';
-	//uint8_t mb_id = 1;
-	//CAN_MESSAGE mymsg;
-	////can_receive(&mymsg, mb_id);
-	//if (can_receive(&mymsg, mb_id)==0)
-	//{
-		//printf("new message mb id 1%c\n",e);
-		//printf("id %d\n",mymsg.id);
-		//printf("length %c\n",mymsg.data_length);
-		//printf("data %c\n",mymsg.data);
-	//}
-	//else if (can_receive(&mymsg, mb_id+1)==0)
-	//{
-		//printf("new message mb_id 2%c\n",e);
-		//printf("id %d\n",mymsg.id);
-		//printf("length %c\n",mymsg.data_length);
-		//printf("data %c\n",mymsg.data);
-	//}
-	//else if (can_receive(&mymsg, mb_id)==1)
-	//{
-		//printf("Mailbox busy");
-	//}
-	//
+	uint8_t mb_id = 1;
+	CAN_MESSAGE mymsg;
+	can_receive(&mymsg, mb_id);
+	if (can_receive(&mymsg, mb_id)==0)
+	{
+		printf("new message mb id 1%c\n",e);
+		printf("id %d\n",mymsg.id);
+		printf("length %c\n",mymsg.data_length);
+		printf("data %c\n",mymsg.data);
+	}
+	else if (can_receive(&mymsg, mb_id+1)==0)
+	{
+		printf("new message mb_id 2%c\n",e);
+		printf("id %d\n",mymsg.id);
+		printf("length %c\n",mymsg.data_length);
+		printf("data %c\n",mymsg.data);
+	}
+	else if (can_receive(&mymsg, mb_id)==1)
+	{
+		printf("Mailbox busy");
+	}
+	
 	
     /* Replace with your application code */
 	set_servo_pos(1);
