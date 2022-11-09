@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "sam.h"
+#include "Joystick.h"
 
 //#include "../uart_and_printf/printf-stdarg.h"
 #include "printf-stdarg.h"
@@ -111,7 +112,8 @@ void CAN0_Handler( void )
 			
 			//set_servo_pos(message.data[0]);
 			motor_run_joystick(message.data[0]);
-			printf("x:%d    y%d\n",message.data[0],message.data[1]);
+			//joy_read_x(message.data[0]);
+			printf("x:%d ------------->xcan:%d\n", joy_read_x(message.data[0]),message.data[0]);
 			
 		}
 

@@ -14,6 +14,9 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "Game.h"
+#include "Motor.h"
+#include "DAC.h"
+
 
 
 //#include <util/delay.h>
@@ -29,33 +32,15 @@ int main(void)
 	can_init_def_tx_rx_mb(0x00290165);
 	PWM_init();
 	ADC_init();
+	dac_init();
+	motor_init();
 	
 	
 	
 	
-	volatile char e = 'e';
-	//uint8_t mb_id = 1;
-	//CAN_MESSAGE mymsg;
-	////can_receive(&mymsg, mb_id);
-	//if (can_receive(&mymsg, mb_id)==0)
-	//{
-		//printf("new message mb id 1%c\n",e);
-		//printf("id %d\n",mymsg.id);
-		//printf("length %c\n",mymsg.data_length);
-		//printf("data %c\n",mymsg.data);
-	//}
-	//else if (can_receive(&mymsg, mb_id+1)==0)
-	//{
-		//printf("new message mb_id 2%c\n",e);
-		//printf("id %d\n",mymsg.id);
-		//printf("length %c\n",mymsg.data_length);
-		//printf("data %c\n",mymsg.data);
-	//}
-	//else if (can_receive(&mymsg, mb_id)==1)
-	//{
-		//printf("Mailbox busy");
-	//}
-	//
+	//motor_disable();
+	motor_enable();
+	
 	
 	//set_servo_pos(1);
     /* Replace with your application code */
@@ -64,14 +49,15 @@ int main(void)
     {
 	CAN0_Handler();	
 	score_count();
+	//motor_run_joystick()
 	
 	if (ADC_read() == 0)
 	{
-		printf("FALS%c",e);
+		//printf("FALS%c",e);
 	}
 	else if (ADC_read() == 1)
 	{
-		printf("TRU%c\n",e);
+		//printf("TRU%c\n",e);
 	}
 	
 		

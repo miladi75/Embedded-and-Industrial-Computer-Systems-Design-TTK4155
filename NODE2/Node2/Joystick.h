@@ -9,9 +9,10 @@
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
 
-typedef enum {LEFT, RIGHT,UP, DOWN, NEUTRAL} joystick_dir_t;
+//typedef enum {LEFT, RIGHT,UP, DOWN, NEUTRAL} joystick_dir_t;
 	
 
+int joy_read_x(int verdix);
 
 
 

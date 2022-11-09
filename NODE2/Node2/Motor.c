@@ -7,6 +7,7 @@
 #include "sam.h"
 #include "DAC.h"
 #include "Motor.h"
+#include "Joystick.h"
 
 
 void motor_init() {
@@ -26,18 +27,23 @@ void motor_init() {
 }
 
 
-void motor_run_joystick(int joystick_value) {
-	if (joystick_value > 95) {
+void motor_run_joystick(int x_level) {
+	//printf("\nxlevel%d\n",x_level);
+	int joystick_value = joy_read_x(x_level);
+	
+	if (joystick_value > 0) {
 		//motor_set_direction(RIGHT);
 		 PIOD->PIO_SODR = PIO_PD10;
 	}
-	else {
+	else
+	 {
 		//motor_set_direction(LEFT);
 		PIOD->PIO_CODR = PIO_PD10;
 	}
 
-	uint16_t speed = (uint16_t) (0x4FF * abs(joystick_value) / 100);
+	uint16_t speed = (uint16_t) 2*(0x4FF * abs(joystick_value) / 100);
 	//motor_set_speed(speed);
+	printf("\nspeed:%d\n",speed);
 	dac_write(speed); 
 }
 
