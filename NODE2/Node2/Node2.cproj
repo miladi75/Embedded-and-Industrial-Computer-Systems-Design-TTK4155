@@ -56,6 +56,17 @@
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
     <avrtoolinterfaceclock>7500000</avrtoolinterfaceclock>
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -177,6 +188,12 @@
     <Compile Include="can_interrupt.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="DAC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="DAC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Device_Startup\startup_sam3xa.c">
       <SubType>compile</SubType>
     </Compile>
@@ -189,6 +206,9 @@
     <Compile Include="Game.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Motor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Joystick.c">
       <SubType>compile</SubType>
     </Compile>
@@ -196,6 +216,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Motor.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="printf-stdarg.c">

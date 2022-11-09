@@ -14,6 +14,9 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "Game.h"
+#include "Motor.h"
+#include "DAC.h"
+
 
 
 //#include <util/delay.h>
@@ -29,9 +32,14 @@ int main(void)
 	can_init_def_tx_rx_mb(0x00290165);
 	PWM_init();
 	ADC_init();
+	dac_init();
+	motor_init();
 	
 	
 	
+	
+	motor_disable();
+	motor_enable();
 	
 	
 	//set_servo_pos(1);
@@ -41,14 +49,15 @@ int main(void)
     {
 	CAN0_Handler();	
 	score_count();
+	//motor_run_joystick()
 	
 	if (ADC_read() == 0)
 	{
-		printf("FALS%c",e);
+		//printf("FALS%c",e);
 	}
 	else if (ADC_read() == 1)
 	{
-		printf("TRU%c\n",e);
+		//printf("TRU%c\n",e);
 	}
 	
 		
