@@ -159,6 +159,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ADC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="can_controller.c">
       <SubType>compile</SubType>
     </Compile>
@@ -175,6 +181,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Device_Startup\system_sam3xa.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Game.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Game.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Joystick.c">

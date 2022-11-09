@@ -24,12 +24,50 @@ void PWM_init(void){
 }
 
 void set_servo_pos(int value){
-	//value = value - 64; //offset comp from joystick
-	//if (value < 64)
+	
+	value = 92 + value*96/255;
+	
+	//if (value> 126 && value< 129)
 	//{
-		//value = 64;
+		//value = 127;
 	//}
-	REG_PWM_CDTY5 = 92 + value*98/255;//74
+	
+	
+	//
+	//int last_value = value;
+	//
+	//printf("value-last: %d\n",value-last_value);
+	//if ((value-last_value)>2)
+	//{
+		////REG_PWM_CDTY5 =  value;
+		//printf("value1: %d\n",value);
+	//}
+	//else 
+	//{
+		//REG_PWM_CDTY5 =  value;
+		//printf("value2: %d\n",value);
+	//}
+	//
+	
+	
+	//if(abs(value-next_value)<2){
+		//REG_PWM_CDTY5 =  next_value;
+		//printf("PWM value:%d\n",REG_PWM_CDTY5);//
+	//}
+	//
+	
+	//int new_value = value/2 + 123;
+	//
+	//if (new_value < 74)
+	//{
+		//new_value = 74;
+	//}
+	//if (new_value > 172)
+	//{
+		//new_value = 172;
+	//}
+	
+	REG_PWM_CDTY5 = value; //92 + value*98/255;//74
 	//int test = (92 + value*98/255);//bare for testing
-	printf("%d\n",REG_PWM_CDTY5);//bare for testing
+	//printf("PWM value:%d\n",REG_PWM_CDTY5);//bare for testing
 }
