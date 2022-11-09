@@ -1,0 +1,115 @@
+[33mcommit da739d1e72a84ae2267409d152ff980bd2023a1f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;32mtempBranch[m[33m)[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Thu Nov 3 17:41:30 2022 +0100
+
+    all the modified files from my pc to main repo
+
+[33mcommit 29e17ca88ee6c7fa7e1273400f98138db4b93ecc[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Thu Nov 3 17:40:23 2022 +0100
+
+    EVERYTHING in NODE1() Including coord function
+
+[33mcommit ccfe2ee1a16e594de4128b96d9f642d8c7ee5b5f[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sun Oct 30 15:57:53 2022 +0100
+
+    rydda litt i funksjonan in NODE2
+
+[33mcommit 584a2106f4cf4afa78efc3485a6b7274eb09493c[m
+Merge: 4c4f081 33784a3
+Author: DanielNgrd <113102346+DanielNgrd@users.noreply.github.com>
+Date:   Sun Oct 30 14:02:08 2022 +0100
+
+    Merge branch 'master' of https://github.com/miladi75/ttk4155
+
+[33mcommit 4c4f08165cef5e95a428da49a3647ebc98139f1f[m
+Author: DanielNgrd <113102346+DanielNgrd@users.noreply.github.com>
+Date:   Sun Oct 30 14:01:40 2022 +0100
+
+    servo
+
+[33mcommit 33784a3e513247bb8953269866f63efaa083d5db[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 13:34:52 2022 +0200
+
+    Byggern node 1 with project name Byggern2
+
+[33mcommit 32f099d6ba1dfdf2d7cd5589b5e53670e4cbee45[m
+Merge: 5521ea0 564d59c
+Author: DanielNgrd <113102346+DanielNgrd@users.noreply.github.com>
+Date:   Sat Oct 29 13:32:41 2022 +0200
+
+    Merge branch 'master' of https://github.com/miladi75/ttk4155
+
+[33mcommit 5521ea084e12cbe319696218700563c3e445f6a8[m
+Author: DanielNgrd <113102346+DanielNgrd@users.noreply.github.com>
+Date:   Sat Oct 29 13:32:04 2022 +0200
+
+    Update main.c
+
+[33mcommit 564d59c878baeb9c9eae7b45a647f727c0bc3956[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 13:24:35 2022 +0200
+
+    Create README.md
+
+[33mcommit 538de4cc256b4b1656f64767ff8e4d0f8a67c953[m
+Author: DanielNgrd <113102346+DanielNgrd@users.noreply.github.com>
+Date:   Sat Oct 29 13:22:59 2022 +0200
+
+    node2 ny
+
+[33mcommit c0962767ac857bd58a72836653086f366f8634e5[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 09:26:29 2022 +0200
+
+    Complete new project for node 2 part begins
+
+[33mcommit 4381c4fe94c1708f4c64f19dbf8aabe3ec7b40df[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 09:25:14 2022 +0200
+
+    Create README.md
+
+[33mcommit b47e77ea27cd65c20b08be68d3398a65441b0808[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 09:23:36 2022 +0200
+
+    changed files and project to new node2 project
+
+[33mcommit 68128603243287dc01bba089a000dddb5b68d07e[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 09:19:51 2022 +0200
+
+    NODE2 part of the project. Copied from node1 and will add more specific node2 code soon
+
+[33mcommit f703f948b5e7f21e73bbc8a6c9f88f0297c1a839[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Sat Oct 29 09:14:50 2022 +0200
+
+    Create README.md
+
+[33mcommit 4ec83de9e3726c582ee9f562579f436b72cdea9f[m
+Author: Trym Kjærnet Dullum <trymkd@ntnu.no>
+Date:   Thu Oct 27 17:47:38 2022 +0200
+
+    godkjent ov 3, 4, 5
+
+[33mcommit 0acf806371e5e3db4d285d70dfc9f45b00bcdb60[m
+Author: Trym Kjærnet Dullum <trymkd@ntnu.no>
+Date:   Thu Oct 27 11:56:06 2022 +0200
+
+    can sending the message
+
+[33mcommit 83c88c4fd545839444bb0a59f4bf698dfc4b7700[m
+Author: Trym Kjærnet Dullum <trymkd@ntnu.no>
+Date:   Thu Oct 27 10:51:34 2022 +0200
+
+    windows lab pc
+
+[33mcommit 58d72993c50b0e656ffbd430348df0663400d7e7[m
+Author: S. M. Husseini <44436360+miladi75@users.noreply.github.com>
+Date:   Thu Oct 20 12:20:14 2022 +0200
+
+    working project and bugs fixed

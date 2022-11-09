@@ -921,6 +921,9 @@ message_t coord_via_CAN(coord_t xy, uint8_t msg_id){
 
 00000622 <main>:
 
+*/
+
+
 int main(void)
 {
      622:	cf 93       	push	r28
