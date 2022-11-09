@@ -16,6 +16,9 @@
 //#include "../uart_and_printf/printf-stdarg.h"
 #include "printf-stdarg.h"
 #include "can_controller.h"
+#include "Motor.h"
+#include "DAC.h"
+
 
 #define DEBUG_INTERRUPT 0
 volatile char e = 'e';
@@ -106,8 +109,9 @@ void CAN0_Handler( void )
 		if (message.id == 20)
 		{
 			
-			set_servo_pos(message.data[0]);
-			//printf("x:%d    y%d\n",message.data[0],message.data[1]);
+			//set_servo_pos(message.data[0]);
+			motor_run_joystick(message.data[0]);
+			printf("x:%d    y%d\n",message.data[0],message.data[1]);
 			
 		}
 

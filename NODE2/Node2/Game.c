@@ -26,10 +26,10 @@ void score_count(void){
 	
 	if (counter == lives)
 	{
-		printf("Game over");
+		//printf("Game over");
 		counter = 0;
 	}
-printf("--------------------->%d\n", counter);
+//printf("--------------------->%d\n", counter);
 
 
 
