@@ -1,0 +1,6 @@
+# ignore ALL .log files
+*.log
+*.vs
+
+# ignore ALL files in ANY directory named Debug
+Debug/
