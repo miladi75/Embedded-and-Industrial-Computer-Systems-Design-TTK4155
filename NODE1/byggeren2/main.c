@@ -44,6 +44,7 @@ message_t coord_via_CAN(coord_t xy, uint8_t msg_id){
 	message.length = 2;
 	message.id = msg_id;
 	message.data[0] = xy.x;
+	
 	message.data[1] = xy.y;
 	 
 	return message;
