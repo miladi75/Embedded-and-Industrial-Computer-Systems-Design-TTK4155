@@ -1,6 +1,13 @@
-# ignore ALL .log files
+# ignore ALL .log files and further
 *.log
 *.vs
+*.elf
+*.hex
+*.lss
+*.o
+*.atsuo
+*.map
+*.cproj
 
 # ignore ALL files in ANY directory named Debug
 Debug/
