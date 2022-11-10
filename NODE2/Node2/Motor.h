@@ -17,5 +17,9 @@ void motor_disable();
 
 void motor_enable();
 
+int motor_encoder();
+
+void motor_joystick_PID(int reference);
+
 
 #endif /* MOTOR_H_ */

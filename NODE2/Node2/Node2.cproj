@@ -221,6 +221,12 @@
     <Compile Include="Motor.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="PID.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="printf-stdarg.c">
       <SubType>compile</SubType>
     </Compile>
@@ -231,6 +237,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Solenoid.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Solenoid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uart.c">

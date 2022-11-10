@@ -48,8 +48,11 @@ C_SRCS +=  \
 ../Joystick.c \
 ../main.c \
 ../Motor.c \
+../PID.c \
 ../printf-stdarg.c \
 ../PWM.c \
+../Solenoid.c \
+../Timer.c \
 ../uart.c
 
 
@@ -70,8 +73,11 @@ Game.o \
 Joystick.o \
 main.o \
 Motor.o \
+PID.o \
 printf-stdarg.o \
 PWM.o \
+Solenoid.o \
+Timer.o \
 uart.o
 
 OBJS_AS_ARGS +=  \
@@ -85,8 +91,11 @@ Game.o \
 Joystick.o \
 main.o \
 Motor.o \
+PID.o \
 printf-stdarg.o \
 PWM.o \
+Solenoid.o \
+Timer.o \
 uart.o
 
 C_DEPS +=  \
@@ -100,8 +109,11 @@ Game.d \
 Joystick.d \
 main.d \
 Motor.d \
+PID.d \
 printf-stdarg.d \
 PWM.d \
+Solenoid.d \
+Timer.d \
 uart.d
 
 C_DEPS_AS_ARGS +=  \
@@ -115,8 +127,11 @@ Game.d \
 Joystick.d \
 main.d \
 Motor.d \
+PID.d \
 printf-stdarg.d \
 PWM.d \
+Solenoid.d \
+Timer.d \
 uart.d
 
 OUTPUT_FILE_PATH +=Node2.elf
@@ -207,6 +222,13 @@ Device_Startup/system_sam3xa.o: ../Device_Startup/system_sam3xa.c
 	@echo Finished building: $<
 	
 
+./PID.o: .././PID.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./printf-stdarg.o: .././printf-stdarg.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
@@ -215,6 +237,20 @@ Device_Startup/system_sam3xa.o: ../Device_Startup/system_sam3xa.c
 	
 
 ./PWM.o: .././PWM.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./Solenoid.o: .././Solenoid.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./Timer.o: .././Timer.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

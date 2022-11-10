@@ -8,6 +8,7 @@
 #include "DAC.h"
 #include "Motor.h"
 #include "Joystick.h"
+#include "Timer.h"
 
 
 void motor_init() {
@@ -28,31 +29,75 @@ void motor_init() {
 
 
 void motor_run_joystick(int x_level) {
-	//printf("\nxlevel%d\n",x_level);
-	int joystick_value = joy_read_x(x_level);
+	//printf("\nxlevel%d\n",x_level); // for testing
+	int joystick_value = joy_read_x(x_level);//convert from 0 -> 205 to -100 -> 100
 	
 	if (joystick_value > 0) {
-		//motor_set_direction(RIGHT);
-		 PIOD->PIO_SODR = PIO_PD10;
+		 PIOD->PIO_SODR = PIO_PD10; //set dir right
 	}
 	else
 	 {
-		//motor_set_direction(LEFT);
-		PIOD->PIO_CODR = PIO_PD10;
+		PIOD->PIO_CODR = PIO_PD10; // set dir left
 	}
 
 	uint16_t speed = (uint16_t) 2*(0x4FF * abs(joystick_value) / 100);
-	//motor_set_speed(speed);
-	printf("\nspeed:%d\n",speed);
+	
+	//printf("\nspeed:%d\n",speed); //for testing
 	dac_write(speed); 
 }
 
 void motor_disable() {
-	//motor_set_speed(0);
-	dac_write(0);
+	dac_write(0);//set motor speed to 0
 	PIOD->PIO_CODR = PIO_PD9;
 }
 
 void motor_enable() {
 	PIOD->PIO_SODR = PIO_PD9;
+}
+
+
+int motor_encoder(){
+	
+	PIOD->PIO_CODR |= PIO_PD0; //!EO (output encoder)
+
+	PIOD->PIO_CODR |= PIO_PD2; // SEL low extract MSB
+	delay_us(20);
+	uint8_t msb = (PIOC->PIO_PDSR & (0xFF << 1)) >> 1;
+
+	PIOD->PIO_SODR |= PIO_PD2;// SEL high extract LSB
+	delay_us(20);
+	uint8_t lsb = (PIOC->PIO_PDSR & (0xFF << 1)) >> 1;
+	
+	PIOD->PIO_CODR |= PIO_PD1;//reseting encoder
+	PIOD->PIO_SODR |= PIO_PD1;
+
+	PIOD->PIO_SODR |= PIO_PD0; //!OE disable output
+
+	uint16_t encoder_data = ((msb << 8) | lsb);
+	if (encoder_data & (1 << 15)) {
+		return ((uint16_t) (~encoder_data) + 1);
+	}
+	return -encoder_data;
+
+	
+}
+
+static int scale_encoder_value(int value) {
+	return 100 * value / (8800 - 0);//max value * value / max encoder value- min encoder value
+}
+
+
+void motor_joystick_PID(int reference) {
+	int encoder_value = motor_encoder();
+	int current_position = scale_encoder_value(encoder_value);
+	int u = pid_controller(reference, current_position);
+	
+	if (u > 0) {
+		PIOD->PIO_SODR = PIO_PD10;// set dir right
+		dac_write(u); //motor speed
+	}
+	else {
+		PIOD->PIO_CODR = PIO_PD10;//set dir left
+		dac_write(-u); //motor speed
+	}
 }

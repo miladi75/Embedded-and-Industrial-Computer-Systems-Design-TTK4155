@@ -16,7 +16,7 @@
 #include "Game.h"
 #include "Motor.h"
 #include "DAC.h"
-
+#include "Timer.h"
 
 
 //#include <util/delay.h>
@@ -24,10 +24,12 @@
 int main(void)
 {
     /* Initialize the SAM system */
-	volatile char e = 'e'; //bug i printf 
+	volatile char e = 'e'; //bug i printf som ikke gir ny linje
     
-	SystemInit();
+	SystemInit(); // system init
 	WDT->WDT_MR = WDT_MR_WDDIS; //disable watchdog timer
+	
+	
 	configure_uart();
 	can_init_def_tx_rx_mb(0x00290165);
 	PWM_init();
@@ -43,13 +45,25 @@ int main(void)
 	
 	
 	//set_servo_pos(1);
-    /* Replace with your application code */
-	//set_servo_pos(1);
+	
+	//test code solenoid
+	Solenoid_init();
+	
+	//PIOA->PIO_CODR |= PIO_PA16;//pulse
+	//delay_us(100000);
+	//PIOA->PIO_SODR |= PIO_PA16;
+	// test code end
+	
+	
+	
     while (1) 
     {
 	CAN0_Handler();	
 	score_count();
-	//motor_run_joystick()
+	
+	//PIOA->PIO_CODR |= PIO_PA16;
+	PIOA->PIO_SODR |= PIO_PA16;
+	
 	
 	if (ADC_read() == 0)
 	{
@@ -60,6 +74,7 @@ int main(void)
 		//printf("TRU%c\n",e);
 	}
 	
-		
+		//printf("test%c\n",e);
+		//delay_us(2);
     }
 }

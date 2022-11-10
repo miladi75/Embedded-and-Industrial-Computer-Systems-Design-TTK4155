@@ -59,7 +59,7 @@ void CAN0_Handler( void )
 			printf("CAN0 message arrived in non-used mailbox\n\r");
 		}
 		
-		if (message.id == 50)
+		if (message.id == 50) // message used in testing
 		{
 			printf("melding");
 			//printf("new message mb_id 2%c\n",e);
@@ -72,7 +72,7 @@ void CAN0_Handler( void )
 			printf("data %c\n",message.data[4]);
 		}
 		
-		if (message.id == 10)
+		if (message.id == 10) // joystick dir
 		{
 			
 			//printf("new message%c\n",e);
@@ -107,15 +107,21 @@ void CAN0_Handler( void )
 		}
 		
 		
-		if (message.id == 20)
+		if (message.id == 20)// joystick X and Y value
 		{
 			
 			//set_servo_pos(message.data[0]);
-			motor_run_joystick(message.data[0]);
+			//motor_run_joystick(message.data[0]);
+			motor_joystick_PID(message.data[0]);
 			//joy_read_x(message.data[0]);
 			printf("x:%d ------------->xcan:%d\n", joy_read_x(message.data[0]),message.data[0]);
 			
 		}
+		if (message.id == 30)//button
+		{
+			//Solenoid_pulse(message.data[0]);
+		}
+		
 
 		if(DEBUG_INTERRUPT)printf("message id: %d\n\r", message.id);
 		if(DEBUG_INTERRUPT)printf("message data length: %d\n\r", message.data_length);
