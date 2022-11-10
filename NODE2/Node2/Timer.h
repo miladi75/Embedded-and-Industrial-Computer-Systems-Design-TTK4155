@@ -14,9 +14,10 @@
 
 static void SysTick_init_us(int period);
 
+void SysTick_Handler(void);
 
 void delay_us(uint16_t us);
 
-
+void delay_ms(uint16_t ms);
 
 #endif /* TIMER_H_ */

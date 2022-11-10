@@ -77,7 +77,7 @@ int motor_encoder(){
 	if (encoder_data & (1 << 15)) {
 		return ((uint16_t) (~encoder_data) + 1);
 	}
-	return -encoder_data;
+	return encoder_data;
 
 	
 }
@@ -89,8 +89,9 @@ static int scale_encoder_value(int value) {
 
 void motor_joystick_PID(int reference) {
 	int encoder_value = motor_encoder();
-	int current_position = scale_encoder_value(encoder_value);
-	int u = pid_controller(reference, current_position);
+	//int current_position = scale_encoder_value(encoder_value);
+	printf("reference: %d		encoder_value:%d",reference,encoder_value);
+	int u = pid_controller(reference, encoder_value);
 	
 	if (u > 0) {
 		PIOD->PIO_SODR = PIO_PD10;// set dir right

@@ -18,6 +18,7 @@ void busyWait(){
 		;
 	}
 }
+
 void delay(void) {
     uint16_t t;
     for (t = 0; t < F_CPU/4; t++)

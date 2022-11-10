@@ -5,6 +5,8 @@
  *  Author: danie
  */ 
 #include "ADC.h"
+#include "can_controller.h"
+
 
 int counter = 0;
 int lives = 3;
@@ -19,8 +21,20 @@ void score_count(void){
 	//sudo code
 	if (IR_level == 0 && pause == 0)
 	{ 
-		counter = 1;
-		pause = 1;
+		counter = counter + 1;
+		
+		
+		CAN_MESSAGE msg;
+		msg.id = 5;
+		msg.data_length = 2;
+		msg.data[0] = counter;
+		
+		return msg;
+		
+		
+		can_send(&msg,1);
+		
+		//pause = 1;
 	}
 	
 	

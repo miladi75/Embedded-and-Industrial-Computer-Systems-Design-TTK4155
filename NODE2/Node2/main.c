@@ -20,9 +20,16 @@
 
 
 //#include <util/delay.h>
+#define k_p		35
+#define k_i		20
+#define k_d		1
+#define T		1.0 / 50
+#define	max_u		0x4FF
 
 int main(void)
 {
+	
+	
     /* Initialize the SAM system */
 	volatile char e = 'e'; //bug i printf som ikke gir ny linje
     
@@ -36,6 +43,8 @@ int main(void)
 	ADC_init();
 	dac_init();
 	motor_init();
+	Solenoid_init();
+	pid_controller_init(k_p,k_i,k_d, T, max_u);
 	
 	
 	
@@ -47,7 +56,7 @@ int main(void)
 	//set_servo_pos(1);
 	
 	//test code solenoid
-	Solenoid_init();
+	//Solenoid_init();
 	
 	//PIOA->PIO_CODR |= PIO_PA16;//pulse
 	//delay_us(100000);
@@ -60,9 +69,11 @@ int main(void)
     {
 	CAN0_Handler();	
 	score_count();
+	//SysTick_Handler();
+	
 	
 	//PIOA->PIO_CODR |= PIO_PA16;
-	PIOA->PIO_SODR |= PIO_PA16;
+	//PIOA->PIO_SODR |= PIO_PA16;
 	
 	
 	if (ADC_read() == 0)
@@ -74,7 +85,6 @@ int main(void)
 		//printf("TRU%c\n",e);
 	}
 	
-		//printf("test%c\n",e);
-		//delay_us(2);
+		
     }
 }

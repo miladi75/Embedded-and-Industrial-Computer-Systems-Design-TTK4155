@@ -119,7 +119,14 @@ void CAN0_Handler( void )
 		}
 		if (message.id == 30)//button
 		{
-			//Solenoid_pulse(message.data[0]);
+			//printf("butten data: %d\n",message.data[0]);
+			Solenoid_pulse(message.data[0]);
+			set_servo_pos(message.data[3]);
+			printf("servo: %d\n",message.data[2]);
+		}
+		
+		if (message.id == 40)
+		{
 		}
 		
 

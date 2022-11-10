@@ -6,6 +6,7 @@
  */ 
 #include "sam.h"
 #include "Solenoid.h"
+#include "Timer.h"
 
 
 void Solenoid_init(){
@@ -15,17 +16,21 @@ void Solenoid_init(){
 	PIOA->PIO_SODR |= PIO_PA16;
 	
 }
-
+ volatile int flag = 0;
 void Solenoid_pulse(int button){
-	
-	if (button ==1 )
+	//printf("solenoid %d\n",button);
+	if (button == 4 && flag == 0)
 	{
-	
+		flag = 1;
 	//pulse MÅ BYTTE TIL RIKTIG UTGANG
-	PIOD->PIO_CODR |= PIO_PD8;// set PIO
-	delay_us(300);						//MÅ SETTE RIKTIG DELAY
-	PIOD->PIO_SODR |= PIO_PD8; // reset PIO
-	
+		PIOA->PIO_CODR |= PIO_PA16;// clear PIO
+		//delay_ms(100);						//MÅ SETTE RIKTIG DELAY
+		//PIOA->PIO_SODR |= PIO_PA16; // set PIO
+	}
+	else if(button != 4) {
+		
+		flag = 0;
+		PIOA->PIO_SODR |= PIO_PA16;
 	}
 	
 	
