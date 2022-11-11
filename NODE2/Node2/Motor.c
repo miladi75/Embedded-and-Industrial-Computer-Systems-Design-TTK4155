@@ -61,11 +61,17 @@ int motor_encoder(){
 	PIOD->PIO_CODR |= PIO_PD0; //!EO (output encoder)
 
 	PIOD->PIO_CODR |= PIO_PD2; // SEL low extract MSB
-	delay_us(20);
+	//delay_us(20);
+	for (int i = 0; i < 1000000; i++ ){
+		;
+	}
 	uint8_t msb = (PIOC->PIO_PDSR & (0xFF << 1)) >> 1;
 
 	PIOD->PIO_SODR |= PIO_PD2;// SEL high extract LSB
-	delay_us(20);
+	//delay_us(20);
+	for (int i = 0; i < 1000000; i++ ){
+	;}
+	
 	uint8_t lsb = (PIOC->PIO_PDSR & (0xFF << 1)) >> 1;
 	
 	PIOD->PIO_CODR |= PIO_PD1;//reseting encoder
@@ -89,10 +95,10 @@ static int scale_encoder_value(int value) {
 
 void motor_joystick_PID(int reference) {
 	int encoder_value = motor_encoder();
-	//int current_position = scale_encoder_value(encoder_value);
-	printf("reference: %d		encoder_value:%d",reference,encoder_value);
-	int u = pid_controller(reference, encoder_value);
-	
+	int current_position = scale_encoder_value(encoder_value);
+	int reference_value = joy_read_x(reference);
+	int u = pid_controller(reference, current_position);
+	printf("reference: %d		encoder_value:%d\n U value%d\n",reference_value,current_position,u);
 	if (u > 0) {
 		PIOD->PIO_SODR = PIO_PD10;// set dir right
 		dac_write(u); //motor speed
