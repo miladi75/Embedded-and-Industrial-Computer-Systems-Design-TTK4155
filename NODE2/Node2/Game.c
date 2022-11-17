@@ -12,7 +12,7 @@ int counter = 0;
 int lives = 3;
 int pause = 0;
 
-void score_count(void){
+void score_count(int button){
 	
 	int IR_level = ADC_read();
 	
@@ -24,6 +24,21 @@ void score_count(void){
 		counter = counter + 1;
 		
 		
+		pause = 1;
+	}
+	
+	if (button = 1)
+	{
+		pause = 0;
+	}
+	
+	if (counter == lives)
+	{
+		//printf("Game over");
+		counter = 0;
+		
+		
+		
 		CAN_MESSAGE msg;
 		msg.id = 5;
 		msg.data_length = 2;
@@ -32,16 +47,8 @@ void score_count(void){
 		return msg;
 		
 		
-		can_send(&msg,1);
+		can_send(&msg,0);
 		
-		//pause = 1;
-	}
-	
-	
-	if (counter == lives)
-	{
-		//printf("Game over");
-		counter = 0;
 	}
 //printf("--------------------->%d\n", counter);
 

@@ -24,13 +24,13 @@ void Solenoid_pulse(int button){
 		flag = 1;
 	//pulse MÅ BYTTE TIL RIKTIG UTGANG
 		PIOA->PIO_CODR |= PIO_PA16;// clear PIO
-		//delay_ms(100);						//MÅ SETTE RIKTIG DELAY
-		//PIOA->PIO_SODR |= PIO_PA16; // set PIO
+		delay_ms(100);						//MÅ SETTE RIKTIG DELAY
+		PIOA->PIO_SODR |= PIO_PA16; // set PIO
 	}
 	else if(button != 4) {
 		
 		flag = 0;
-		PIOA->PIO_SODR |= PIO_PA16;
+		//PIOA->PIO_SODR |= PIO_PA16;
 	}
 	
 	

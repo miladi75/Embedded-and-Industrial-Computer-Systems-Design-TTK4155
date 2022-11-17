@@ -24,7 +24,12 @@ void PWM_init(void){
 }
 
 void set_servo_pos(int value){
-	
+	//
+	//if (mesurment == amaount)
+	//{
+		//int value = value1;
+	//}
+	//
 	value = 92 + value*96/255;
 	
 	//if (value> 126 && value< 129)
