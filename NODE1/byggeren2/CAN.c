@@ -114,3 +114,39 @@ message_t can_send_string(char* c, uint8_t size, uint8_t can_id){
 	}
 	return message;
 }
+
+
+
+message_t send_clicked_btn(){
+	message_t msg;
+	msg.length = 4;
+	msg.id = 30;
+	msg.data[0] = btn_right();
+	msg.data[1] = btn_left();
+	msg.data[2] = slide_read_r();
+	msg.data[3] = slide_read_l();
+	
+	
+	return msg;
+}
+
+
+
+
+
+message_t coord_via_CAN(){
+	message_t message;
+	message.id = 20;
+	coord_t xy;
+	xy.x = (joy_read_x() + 93);
+	xy.y = (joy_read_y() + 94);
+	
+	message.length = 2;
+	
+	message.data[0] = xy.x;
+	
+	message.data[1] = xy.y;
+	
+	return message;
+	
+}

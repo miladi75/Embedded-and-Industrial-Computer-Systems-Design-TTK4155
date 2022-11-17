@@ -24,41 +24,27 @@
 #include "MCP2515.h"
 
 #define FOSC 4915200
+
+#ifndef F_CPU
+#define F_CPU 4915200
+#endif
+
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 
 volatile int line = 0;
 volatile int menu = 0;
+volatile int gameLive = 0;
 
-typedef struct {
-	uint16_t x;
-	uint16_t y;
-}coord_t;
 
-message_t coord_via_CAN(coord_t xy, uint8_t msg_id){
-	
-	xy.x = (joy_read_x() + 93);
-	xy.y = (joy_read_y() + 94);
-	
-	message_t message;
-	message.length = 2;
-	message.id = msg_id;
-	message.data[0] = xy.x;
-	
-	message.data[1] = xy.y;
-	 
-	return message;
-	
-}
 
 /**
 IR sensor(svart) langt bein VCC
 Hvit-Sensor: langt bein på VCC
 
-
 */
 
-void temp_menu(){
+void simple_temp_menu(){
 	if (joy_read_x() < -50 && menu > 0) {
 				menu--;
 				oled_clear();
@@ -188,34 +174,94 @@ int main(void)
 	can_init(); //
 	mcp_set_mode(MODE_NORMAL); //mode_loopback 0x40	
 	
+
+	message_t message;
+	message_t btn_msg;
 	
+
+	
+	
+	//printf("id: %d \r\n", message.id);
+	//printf("lengde: %d \r\n", message.length);
+	//printf("melding: %s \r\n\r\n", message.data);
+
+
 	
 
 	_delay_ms(600);
-	
-
 
 		
 		
 		while (1) 
 		{	
-			//spi_write("g");
-			
-			joystick_dir_t dir = joystick_pos();
-			
-			
-			//printf("x %d \n", joy_read_x());
-			//printf("y %d \n", joy_read_y());
+			//recive msg when game over
+			//set gameLive = 0
 
-			message_t message = send_sliders_and_btns();
 			
-			can_send(&message);
+			if (gameLive == 1) {
+				
+				oled_clear();
+				oled_pos(0,0);
+				oled_print("GAME LIVE!");
+				
+				message = coord_via_CAN();
+				can_send(&message);
+				
+				_delay_ms(50);
+				
+				btn_msg = send_sliders_and_btns();
+				can_send(&btn_msg);
+				
+				
+				
+			}
+			
+			if (gameLive == 0) {
+				
+				
+				if (joy_read_x() < -50 && menu > 0) {
+					menu--;
+					oled_clear();
+				}
+				if (menu == 0) {
+					oled_simple_menu();
+				}
+				
+				if (joy_read_y() < -50 && line < 7) {
+					line++;
+					OLED_print_arrow(line,0);
+					OLED_clear_arrow(line-1,0);
+					_delay_ms(500);
+				}
+				
+				if (joy_read_y() > 50 && line > 0) {
+					line--;
+					OLED_print_arrow(line,0);
+					OLED_clear_arrow(line+1,0);
+					_delay_ms(500);
+					
+				}
+				
+				if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+					oled_highscores();
+					menu = 1;
+					
+				}
+				if(joy_read_x() > 50 && line == 1) {	//PLAY GAME menu
+					gameLive = 1;
+					
+					
+				}
+
+			}
+
+
+
 			
 			_delay_ms(500);
-			temp_menu();
-			//print_dir_type(dir);
-			
-			
+			//temp_menu();
+
+
 		
 		
 		

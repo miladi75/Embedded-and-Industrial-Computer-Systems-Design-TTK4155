@@ -25,6 +25,12 @@ typedef struct Message {
 	int8_t  data[8];    /**< The data of the message */
 } message_t;
 
+//Coordinate type to store an integer pair
+typedef struct {
+	uint16_t x;
+	uint16_t y;
+}coord_t;
+
 // CAN ID's for messages sent from node1
 enum {
 	MSG1_SET_MODE = 100,
@@ -70,6 +76,16 @@ message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id);
 
 //send string message over can
 message_t can_send_string(char* c, uint8_t size, uint8_t can_id);
+
+
+
+
+message_t send_clicked_btn();
+
+
+message_t coord_via_CAN();
+
+
 
 
 

@@ -180,5 +180,17 @@ int buttons_slide_r(){
 	return PINB & (1 << DDB2);
 }
 
+int btn_left(){
+	DDRB &= ~(1 << DDB1);
+	return (PINB & (1 << DDB1));
+}
+
+
+int btn_right(){
+	DDRB &= ~(1 << DDB2);
+	return (PINB & (1 << DDB2));
+}
+
+
 
 
