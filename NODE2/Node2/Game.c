@@ -18,13 +18,13 @@ void score_count(int button){
 	
 	
 	
-	//sudo code
+	
 	if (IR_level == 0 && pause == 0)
 	{ 
 		counter = counter + 1;
 		
-		
 		pause = 1;
+		
 	}
 	
 	if (button = 1)
@@ -35,7 +35,6 @@ void score_count(int button){
 	if (counter == lives)
 	{
 		//printf("Game over");
-		counter = 0;
 		
 		
 		
@@ -48,9 +47,8 @@ void score_count(int button){
 		
 		
 		can_send(&msg,0);
-		
+		counter = 0;
 	}
-//printf("--------------------->%d\n", counter);
 
 
 
