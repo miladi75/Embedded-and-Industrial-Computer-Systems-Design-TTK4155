@@ -107,7 +107,7 @@ can_interrupt.d can_interrupt.o: .././can_interrupt.c \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/gpbr.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h \
  .././Joystick.h .././printf-stdarg.h .././can_controller.h .././Motor.h \
- .././DAC.h
+ .././DAC.h .././Solenoid.h .././PWM.h .././Timer.h
 
 .././can_interrupt.h:
 
@@ -332,3 +332,9 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/p
 .././Motor.h:
 
 .././DAC.h:
+
+.././Solenoid.h:
+
+.././PWM.h:
+
+.././Timer.h:

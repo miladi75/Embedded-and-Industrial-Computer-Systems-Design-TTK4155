@@ -4,6 +4,8 @@
 
 ADC.c
 
+CAN.c
+
 can_controller.c
 
 can_interrupt.c

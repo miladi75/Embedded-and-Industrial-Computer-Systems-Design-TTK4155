@@ -7,48 +7,64 @@
 
 #include "sam.h"
 #include "Timer.h"
+#include "core_cm3.h"
+#include <stdint.h>
 
 
 #define F_CPU 84000000
+#define interrupt_prio 0
 
 
-volatile int wait_ticks = 0;
+volatile uint32_t wait_ticks = 0;
 
-static void SysTick_init_us(int value) { 
-	SysTick->LOAD = ((int)(value*84) & SysTick_LOAD_RELOAD_Msk)-1; //reload value
+//static void SysTick_init_us(int value) { 
+	//SysTick->LOAD = ((value*84) & SysTick_LOAD_RELOAD_Msk)-1; //reload value
+	//
+	//SysTick->VAL = 0;//reset counter value and flag
+//
+	//NVIC_SetPriority(SysTick_IRQn, interrupt_prio);//interrupt priority
+//
+	//SysTick->CTRL |= (1 << SysTick_CTRL_CLKSOURCE_Pos) & SysTick_CTRL_CLKSOURCE_Msk;
+	//SysTick->CTRL |= (1 << SysTick_CTRL_TICKINT_Pos) & SysTick_CTRL_TICKINT_Msk;
+	//SysTick->CTRL |= (1 << SysTick_CTRL_ENABLE_Pos) & SysTick_CTRL_ENABLE_Msk;
+//
+//
+//}
+//
+void delay_init(uint32_t verdi){
 	
-	SysTick->VAL = 0;//reset counter value
-
-	NVIC_SetPriority(SysTick_IRQn, 3);//interrupt priority
-
-	SysTick->CTRL  = (1 << SysTick_CTRL_CLKSOURCE_Pos) & SysTick_CTRL_CLKSOURCE_Msk;
-	SysTick->CTRL |= (1 << SysTick_CTRL_TICKINT_Pos) & SysTick_CTRL_TICKINT_Msk;
-	SysTick->CTRL |= (1 << SysTick_CTRL_ENABLE_Pos) & SysTick_CTRL_ENABLE_Msk;
-
+SystemCoreClockUpdate();
+SysTick_Config(verdi * SystemCoreClock/1000000);
 
 }
 
-
-void delay_us(uint16_t us) {
+void delay_us(uint32_t us) {
 	wait_ticks = us;
-	SysTick_init_us(1);
-	while(wait_ticks != 0);
+	//SysTick_init_us(1);
+	SysTick_Config(84);
+	//SysTick_Handler();
+	//delay_init(1);
+	while(wait_ticks > 0);
+	SysTick->CTRL = 0;
 }
 
 
-void delay_ms(uint16_t ms) {
+void delay_ms(uint32_t ms) {
 	wait_ticks = ms;
-	SysTick_init_us(1000);
-	while(wait_ticks != 0);
+	//systick_init_us(1000);
+	SysTick_Config(1000*84);
+	//systick_handler();
+	//delay_init(1000);
+	while(wait_ticks > 0);
+	SysTick->CTRL = 0;
+	
 }
 
 
 void SysTick_Handler(void) {
-	if(wait_ticks!=0) {
-		wait_ticks--;
-	}
-	else {
-		SysTick->CTRL = 0;
-	}
+	wait_ticks--;
+	
+	//else {
+		//SysTick->CTRL = 0;
+	//}
 }
-

@@ -14,7 +14,7 @@
 
 
 void busyWait(){
-	for(long unsigned int i =0 ; i< 10000000000; i++){
+	for(long unsigned int i =0 ; i< 1000000000; i++){
 		;
 	}
 }
