@@ -29,36 +29,62 @@ int sum_jitter = 0;
 int avg_val_jitter = 0;
 int total_jitter_val = 0;
 
-void CAN_use(void){
+
+
+uint8_t CAN_use(void){
 
 CAN_MESSAGE message;
 
 can_receive(&message,0);
+
+
 if (message.id == 30){
-	do{
-		can_receive(msg_arr[jitter_count], 0);
-		jitter_count++;
-		sum_jitter += msg_arr[jitter_count]->data[2];
-		
+	//left btn == 2 & right btn = 4
+	
+	//printf("btnL: %d  btnR: %d   slidel:%d    slideR: %d\n",message.data[0],message.data[1], message.data[2], message.data[3]);
+	
+	score_count(message.data[0]);//btn left
+	
+	if (score_count(message.data[0]) <= 0)
+	{
+		return 10;
+		printf("test score %d\n",score_count(message.data[0]));
 	}
-	while (message.id == 30 && jitter_count < 50);
-
-
 	
-	for(int i = 0; i< 50; i++){
-		avg_val_jitter = (int) sum_jitter/50;
-	}	
+	Solenoid_pulse(message.data[1]); //btn right
+	
+	set_servo_pos(message.data[2]); //left slider
 	
 	
 	
-	if(msg_arr[jitter_count]->id == 30){
-		
-		Solenoid_pulse(message.data[0]);
-		//score_count(message.data[1]);
-		set_servo_pos(avg_val_jitter);
-		printf("servo: %d\n",avg_val_jitter);
-		
-		
+	
+	
+	//  test filter servo
+	
+	//do{
+		//can_receive(msg_arr[jitter_count], 0);
+		//jitter_count++;
+		//sum_jitter += msg_arr[jitter_count]->data[2];
+		//
+	//}
+	//while (message.id == 30 && jitter_count < 50);
+//
+//
+	//
+	//for(int i = 0; i< 50; i++){
+		//avg_val_jitter = (int) sum_jitter/50;
+	//}	
+	//
+	//
+	//
+	//if(msg_arr[jitter_count]->id == 30){
+		//
+		//Solenoid_pulse(message.data[0]);
+		////score_count(message.data[1]);
+		//set_servo_pos(avg_val_jitter);
+		//printf("servo: %d\n",avg_val_jitter);
+		//
+		//
 	}
 
 
@@ -114,8 +140,8 @@ if (message.id == 50) // message used in testing
 if (message.id == 20)// joystick X and Y value
 {
 	//set_servo_pos(message.data[0]);
-	//motor_run_joystick(message.data[0]);
-	motor_joystick_PID(message.data[0]);
+	motor_run_joystick(message.data[0]);
+	//motor_joystick_PID(message.data[0]);
 	//joy_read_x(message.data[0]);
 	//printf("x:%d ------------->xcan:%d\n", joy_read_x(message.data[0]),message.data[0]);
 	
@@ -159,5 +185,5 @@ if (message.id == 20)// joystick X and Y value
 
 
 }
-	}
+	
 	

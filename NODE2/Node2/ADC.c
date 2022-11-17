@@ -39,6 +39,7 @@ void ADC_init(void){
  
  uint16_t ADC_read(){
 	 uint16_t adc_value = ADC->ADC_CDR[0];
+	 //printf("adc_valuec %d \n",adc_value);
 	 if(adc_value<=1000){
 		 //printf("-----------------> %d\n", ADC->ADC_CDR[0]);
 		 //busyWait();

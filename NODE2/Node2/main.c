@@ -58,6 +58,8 @@ int main(void)
 	motor_enable();
 	
 	
+	
+	
 	//set_servo_pos(1);
 	
 	//test code solenoid
@@ -68,30 +70,44 @@ int main(void)
 	//PIOA->PIO_SODR |= PIO_PA16;
 	 //test code end
 	
-	//CAN_MESSAGE msg;
-	//msg.id = 5;
-	//msg.data_length = 4;
-	//msg.data[0] = 't';
-	//msg.data[1] = 'e';
-	//msg.data[2] = 's';
-	//msg.data[3] = 't';
-	//
-	////return msg;
-	//
-	//
-	//can_send(&msg,0);
+	CAN_MESSAGE msg;
+		msg.id = 5;
+		msg.data_length = 4;
+		msg.data[0] = 'h';
+		msg.data[1] = 'e';
+		msg.data[2] = 'i';
+		msg.data[3] = 't';
+		can_send(&msg,0);
+		
+		//return msg;
+		
+		
 	
 	
     while (1) 
     {
 	CAN0_Handler();	
-	score_count();
+	//score_count();
 	CAN_use();
 	//SysTick_Handler();
 	//test();
 	//message = CAN0_Handler();
 	
-	
+	if (CAN_use()== 10)
+	{
+		CAN_MESSAGE msg_1;
+		msg_1.id = 2;
+		msg_1.data_length = 4;
+		msg_1.data[0] = 't';
+		msg_1.data[1] = 't';
+		msg_1.data[2] = 't';
+		msg_1.data[3] = 't';
+		
+		can_send(&msg_1,0);
+		
+		printf("msg sent");
+	}
+	//can_send(&msg,0);
 	
 	
 
@@ -100,17 +116,17 @@ int main(void)
 	
 	//PIOA->PIO_CODR |= PIO_PA16;
 	//PIOA->PIO_SODR |= PIO_PA16;
-	
-	
-	if (ADC_read() == 0)
-	{
-		//printf("FALS%c",e);
-	}
-	else if (ADC_read() == 1)
-	{
-		//printf("TRU%c\n",e);
-	}
-	
-		
+// 	
+// 	printf("adc: %d\n",ADC_read());
+// 	if (ADC_read() == 0)
+// 	{
+// 		printf("FALS%c",e);
+// 	}
+// 	else if (ADC_read() == 1)
+// 	{
+// 		printf("TRU%c\n",e);
+// 	}
+// 	
+// 	
     }
 }
