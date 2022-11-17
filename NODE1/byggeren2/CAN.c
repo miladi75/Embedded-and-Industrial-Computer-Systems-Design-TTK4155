@@ -63,6 +63,28 @@ void can_receive(message_t *msg) {
 	for (int i = 0; i < msg->length; i++) {
 		msg->data[i] = mcp_read(MCP_RXB0D0 + i);
 	}
+	
+
+
+}
+
+void can_receive_n2(message_t *msg) {
+	// Only using buffer 1.
+	//message_t message;
+
+	// Id. RXBnSIDH og RXBnSIDL
+	uint8_t id_low = mcp_read(MCP_RXB1SIDL)/0b100000;
+	uint8_t id_high = mcp_read(MCP_RXB1SIDH);
+	msg->id = id_high * 0b1000 + id_low;
+
+	// Data length. RXBnDLC
+	msg->length = mcp_read(MCP_RXB1DLC);
+
+	// Data (optional). RXBnDM
+	for (int i = 0; i < msg->length; i++) {
+		msg->data[i] = mcp_read(MCP_RXB1D0 + i);
+	}
+	
 
 
 }

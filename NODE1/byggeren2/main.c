@@ -24,17 +24,13 @@
 #include "MCP2515.h"
 
 #define FOSC 4915200
-
-#ifndef F_CPU
-#define F_CPU 4915200
-#endif
-
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 
 volatile int line = 0;
 volatile int menu = 0;
 volatile int gameLive = 0;
+volatile int life_sum = 0;
 
 
 
@@ -43,6 +39,7 @@ IR sensor(svart) langt bein VCC
 Hvit-Sensor: langt bein på VCC
 
 */
+
 
 void simple_temp_menu(){
 	if (joy_read_x() < -50 && menu > 0) {
@@ -175,30 +172,51 @@ int main(void)
 	mcp_set_mode(MODE_NORMAL); //mode_loopback 0x40	
 	
 
-	message_t message;
-	message_t btn_msg;
-	
-
+	 message_t message;
+	 message_t btn_msg;
 	
 	
-	//printf("id: %d \r\n", message.id);
-	//printf("lengde: %d \r\n", message.length);
-	//printf("melding: %s \r\n\r\n", message.data);
+	
+	
+	
+	
+	//printf("id: %d \r\n", msg_n2.id);
+	//printf("lengde: %d \r\n", msg_n2.length);
+	//printf("melding: %s \r\n\r\n", msg_n2.data[0]);
 
 
 	
 
 	_delay_ms(600);
 
-		
+		message_t msg_n2;
 		
 		while (1) 
 		{	
 			//recive msg when game over
 			//set gameLive = 0
-
+			
+			can_receive(&msg_n2);
+			printf("Mld motatt \t --> %c <--\n", msg_n2.data[0]);
+			printf("Mld motatt \t --> %c <--\n", msg_n2.data[1]);
+			printf("Mld motatt \t --> %c <--\n", msg_n2.data[2]);
+			printf("Mld motatt \t --> %c <--\n", msg_n2.data[3]);
+			
+			//printf("Mld ID %d", (char)msg_n2.id);
+			//printf("Mld Lengde %d\n", (char)msg_n2.length);
+			
+			
+			if(msg_n2.data[0] == 't'){
+				gameLive = 0;
+				printf("ok msg");
+				can_receive(&msg_n2);
+		
+			}
+			
+			
 			
 			if (gameLive == 1) {
+				can_receive(&msg_n2);
 				
 				oled_clear();
 				oled_pos(0,0);
@@ -218,6 +236,7 @@ int main(void)
 			
 			if (gameLive == 0) {
 				
+				can_receive(&msg_n2);
 				
 				if (joy_read_x() < -50 && menu > 0) {
 					menu--;
@@ -254,16 +273,8 @@ int main(void)
 				}
 
 			}
-
-
-
 			
-			_delay_ms(500);
-			//temp_menu();
-
-
-		
-		
+		_delay_ms(500);	
 		
     }
 

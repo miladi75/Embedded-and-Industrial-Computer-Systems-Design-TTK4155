@@ -85,6 +85,7 @@ message_t send_clicked_btn();
 
 message_t coord_via_CAN();
 
+void can_receive_n2(message_t *msg);
 
 
 
