@@ -169,6 +169,16 @@ void print_dir_type(joystick_dir_t dir){
 	}
 }
 
+int buttons_slide_l(){
+	//left button pin
+	return PINB & (1 << DDB1);
+}
+
+
+int buttons_slide_r(){
+	//left button pin
+	return PINB & (1 << DDB2);
+}
 
 
 

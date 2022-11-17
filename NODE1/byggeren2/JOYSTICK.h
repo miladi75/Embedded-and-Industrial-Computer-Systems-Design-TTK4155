@@ -39,6 +39,12 @@ int slide_read_r();
 
 void print_dir_type(joystick_dir_t dir);
 
+int buttons_slide_l();
+
+
+int buttons_slide_r();
+
+
 
 
 

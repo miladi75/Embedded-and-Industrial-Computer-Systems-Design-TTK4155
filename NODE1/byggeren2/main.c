@@ -58,7 +58,63 @@ Hvit-Sensor: langt bein på VCC
 
 */
 
+void temp_menu(){
+	if (joy_read_x() < -50 && menu > 0) {
+				menu--;
+				oled_clear();
+			}
+			if (menu == 0) {
+				oled_simple_menu();
+			}	
+				
+			if (joy_read_y() < -50 && line < 7) {		
+				line++;
+				OLED_print_arrow(line,0);
+				OLED_clear_arrow(line-1,0);	
+				_delay_ms(500);	
+			}
+			
+			if (joy_read_y() > 50 && line > 0) {
+				line--;
+				OLED_print_arrow(line,0);
+				OLED_clear_arrow(line+1,0);		
+				_delay_ms(500);
+	
+			}
+			
+			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				oled_highscores();		
+				menu = 1;
+					
+			}
+			if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
+				oled_highscores();
+				menu = 1;
+				
+			}
+			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				oled_highscores();
+				
+			}
+}
 
+message_t send_sliders_and_btns(){
+	message_t msg;
+	msg.length = 4;
+	msg.id = 30;
+	int l_slide_btn = buttons_slide_l();
+	int r_slide_btn = buttons_slide_r();
+	int slider_l = slide_read_l();
+	int slider_r = slide_read_r();
+	
+	msg.data[0] = l_slide_btn;
+	msg.data[1] = r_slide_btn;
+	msg.data[2] = slider_l;
+	msg.data[3] = slider_r;
+	
+	return msg;
+	
+}
 int main(void)
 {
 	srand((unsigned int)time(NULL));
@@ -132,25 +188,12 @@ int main(void)
 	can_init(); //
 	mcp_set_mode(MODE_NORMAL); //mode_loopback 0x40	
 	
-	message_t message;
 	
-	//printf("id: %d \r\n", message.id);
-	//printf("lengde: %d \r\n", message.length);
-	//printf("melding: %s \r\n\r\n", message.data);
-	coord_t xy_coor; 
-	
-
 	
 
 	_delay_ms(600);
 	
-	// Receive message:
-	//message_t mymsg;
-	//can_receive(&mymsg);
-	//printf("msg received\r\n");
-	//printf("id: %d \r\n", mymsg.id);
-	//printf("lengde: %d \r\n", mymsg.length);
-	//printf("melding: %s \r\n\r\n", mymsg.data);
+
 
 		
 		
@@ -159,53 +202,20 @@ int main(void)
 			//spi_write("g");
 			
 			joystick_dir_t dir = joystick_pos();
+			
+			
 			//printf("x %d \n", joy_read_x());
 			//printf("y %d \n", joy_read_y());
 
+			message_t message = send_sliders_and_btns();
 			
-			message = coord_via_CAN(xy_coor, 20);
 			can_send(&message);
 			
 			_delay_ms(500);
+			temp_menu();
 			//print_dir_type(dir);
 			
-			if (joy_read_x() < -50 && menu > 0) {
-				menu--;
-				oled_clear();
-			}
-			if (menu == 0) {
-				oled_simple_menu();
-			}	
-				
-			if (joy_read_y() < -50 && line < 7) {		
-				line++;
-				OLED_print_arrow(line,0);
-				OLED_clear_arrow(line-1,0);	
-				_delay_ms(500);	
-			}
 			
-			if (joy_read_y() > 50 && line > 0) {
-				line--;
-				OLED_print_arrow(line,0);
-				OLED_clear_arrow(line+1,0);		
-				_delay_ms(500);
-	
-			}
-			
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();		
-				menu = 1;
-					
-			}
-			if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
-				oled_highscores();
-				menu = 1;
-				
-			}
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();
-				
-			}
 		
 		
 		
