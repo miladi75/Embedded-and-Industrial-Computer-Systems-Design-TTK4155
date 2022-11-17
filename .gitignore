@@ -11,3 +11,13 @@
 
 # ignore ALL files in ANY directory named Debug
 Debug/
+NODE2/.vs/Node2/v14/.atsuo
+NODE2/.vs/Node2/v14/.atsuo
+NODE2/.vs/Node2/v14/.atsuo
+*.hex
+*.lss
+*.map
+*.srec
+*.cproj
+NODE2/Node2/Debug/Node2.map
+*.srec
