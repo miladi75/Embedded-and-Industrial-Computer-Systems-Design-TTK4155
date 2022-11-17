@@ -24,17 +24,21 @@ void PWM_init(void){
 }
 
 void set_servo_pos(int value){
-	int arr[50];
+	
+	volatile int temp_value = 96 + value * 75/255;
+	
+	//printf("--------------------------------------------------------->servo value %d\n", temp_value);
+	
+// 	int arr[50];
 	//
 	//if (mesurment == amaount)
 	//{
 		//int value = value1;
 	//}
 	//
-	for(int i = 0; i<50;i++){
-		arr[i] = 92 + value*96/255;
-	}
-	//value = 92 + value*96/255;
+// 	for(int i = 0; i<50;i++){
+// 		arr[i] = 92 + value*96/255;
+// 	}
 	
 	//if (value> 126 && value< 129)
 	//{
@@ -76,7 +80,7 @@ void set_servo_pos(int value){
 		//new_value = 172;
 	//}
 	
-	REG_PWM_CDTY5 = value; //92 + value*98/255;//74
+	REG_PWM_CDTY5 = temp_value; //92 + value*98/255;//74
 	//int test = (92 + value*98/255);//bare for testing
 	//printf("PWM value:%d\n",REG_PWM_CDTY5);//bare for testing
 }
