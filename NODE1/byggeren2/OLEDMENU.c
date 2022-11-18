@@ -75,14 +75,16 @@ void oled_simple_menu(){
 	oled_pos(0,5);
 	oled_print("MENU");
 	oled_pos(1,5);
-	oled_print("CHOOSE DIFF:");
+	oled_print("PLAY GAME");
 	oled_pos(2,5);
-	oled_print("EASY");
+	oled_print("DIFFICULITY:");
 	oled_pos(3,5);
-	oled_print("MEDIUM");
+	oled_print("EASY");
 	oled_pos(4,5);
-	oled_print("HARD");
+	oled_print("MEDIUM");
 	oled_pos(5,5);
+	oled_print("HARD");
+	oled_pos(6,5);
 	oled_print("HIGHSCORES");
 	
 }

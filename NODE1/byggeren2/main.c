@@ -117,6 +117,7 @@ uint8_t button_lives( int btn, int lives){
 	{
 		counter++;
 		flag = 1;
+		_delay_ms(200);
 		
 	}
 	else{
@@ -238,7 +239,7 @@ int main(void)
 			
 			//printf("Mld ID %d", (char)msg_n2.id);
 			//printf("Mld Lengde %d\n", (char)msg_n2.length);
-			
+			printf("Counter: %d \n", counter);
 			
 			if(msg_n2.data[0] == 't'){
 				gameLive = 0;
@@ -250,15 +251,36 @@ int main(void)
 			if (button_lives(buttons_slide_l(),diff) == 1){
 				gameLive = 0;
 				counter = 0;
+				//oled_clear();
 			}
 			
 				
 			if (gameLive == 1) {
 				can_receive(&msg_n2);
 				
-				oled_clear();
-				oled_pos(0,0);
+				//oled_clear();
+				oled_pos(1,20);
 				oled_print("GAME LIVE!");
+				oled_pos(4,30);
+				oled_print("LIVES: ");
+				oled_pos(4, 80);
+				
+				if(diff-counter == 1){
+					oled_print("1");
+				}
+				if(diff-counter == 2){
+					oled_print("2");
+				}
+				if(diff-counter == 3){
+					oled_print("3");
+				}
+				if(diff-counter == 4){
+					oled_print("4");
+				}
+				if(diff-counter == 5){
+					oled_print("5");
+				}
+				
 				
 				message = coord_via_CAN();
 				can_send(&message);
@@ -276,7 +298,7 @@ int main(void)
 				
 				
 				
-				
+				//oled_clear();
 				
 			}
 			
@@ -307,24 +329,26 @@ int main(void)
 					
 				}
 				
-				if(joy_read_x() > 50 && line == 5) {	//Higscore menu
+				if(joy_read_x() > 50 && line == 6) {	//Higscore menu
 					oled_highscores();
 					menu = 1;
 					
 				}
 				if(joy_read_x() > 50 && line == 1) {	//PLAY GAME menu
-					gameLive = 1;		
+					gameLive = 1;
+					counter = 0;
+					oled_clear();		
 					
 				}
-				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 1 menu
+				if(joy_read_x() > 50 && line == 3) {	//DIFFICULITY 1 menu
 					diff = 10;							//LIFE amount
 					
 				}
-				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 2 menu
+				if(joy_read_x() > 50 && line == 4) {	//DIFFICULITY 2 menu
 					diff = 5;
 					
 				}
-				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 3 menu
+				if(joy_read_x() > 50 && line == 5) {	//DIFFICULITY 3 menu
 					diff = 3;
 					
 				}
