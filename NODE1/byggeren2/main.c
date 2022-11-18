@@ -31,6 +31,9 @@ volatile int line = 0;
 volatile int menu = 0;
 volatile int gameLive = 0;
 volatile int life_sum = 0;
+volatile int counter = 0;
+volatile int flag = 1;
+volatile int diff = 3;
 
 
 
@@ -81,23 +84,52 @@ void simple_temp_menu(){
 			}
 }
 
-message_t send_sliders_and_btns(){
+message_t send_btns(){
 	message_t msg;
 	msg.length = 4;
 	msg.id = 30;
 	int l_slide_btn = buttons_slide_l();
 	int r_slide_btn = buttons_slide_r();
-	int slider_l = slide_read_l();
-	int slider_r = slide_read_r();
 	
 	msg.data[0] = l_slide_btn;
 	msg.data[1] = r_slide_btn;
-	msg.data[2] = slider_l;
-	msg.data[3] = slider_r;
 	
 	return msg;
 	
 }
+
+message_t send_sliders(){
+	message_t msg;
+	msg.length = 4;
+	msg.id = 40;
+	volatile int slider_l = slide_read_l();
+	volatile int slider_r = slide_read_r();
+	
+	msg.data[0] = slider_l;
+	msg.data[1] = slider_r;
+	
+	return msg;
+	
+}
+
+uint8_t button_lives( int btn, int lives){
+	if (btn)
+	{
+		counter++;
+		flag = 1;
+		
+	}
+	else{
+		flag = 0;
+	}
+	
+	if (counter == lives)
+	{
+		return 1;
+	}
+	return 0;
+}
+
 int main(void)
 {
 	srand((unsigned int)time(NULL));
@@ -174,6 +206,8 @@ int main(void)
 
 	 message_t message;
 	 message_t btn_msg;
+	 message_t slide_msg;
+	 
 	
 	
 	
@@ -195,12 +229,12 @@ int main(void)
 		{	
 			//recive msg when game over
 			//set gameLive = 0
-			
-			can_receive(&msg_n2);
-			printf("Mld motatt \t --> %c <--\n", msg_n2.data[0]);
-			printf("Mld motatt \t --> %c <--\n", msg_n2.data[1]);
-			printf("Mld motatt \t --> %c <--\n", msg_n2.data[2]);
-			printf("Mld motatt \t --> %c <--\n", msg_n2.data[3]);
+// 			
+// 			can_receive(&msg_n2);
+// 			printf("Mld motatt \t --> %c <--\n", msg_n2.data[0]);
+// 			printf("Mld motatt \t --> %c <--\n", msg_n2.data[1]);
+// 			printf("Mld motatt \t --> %c <--\n", msg_n2.data[2]);
+// 			printf("Mld motatt \t --> %c <--\n", msg_n2.data[3]);
 			
 			//printf("Mld ID %d", (char)msg_n2.id);
 			//printf("Mld Lengde %d\n", (char)msg_n2.length);
@@ -208,13 +242,17 @@ int main(void)
 			
 			if(msg_n2.data[0] == 't'){
 				gameLive = 0;
-				printf("ok msg");
+// 				printf("ok msg");
 				can_receive(&msg_n2);
 		
 			}
 			
+			if (button_lives(buttons_slide_l(),diff) == 1){
+				gameLive = 0;
+				counter = 0;
+			}
 			
-			
+				
 			if (gameLive == 1) {
 				can_receive(&msg_n2);
 				
@@ -227,8 +265,16 @@ int main(void)
 				
 				_delay_ms(50);
 				
-				btn_msg = send_sliders_and_btns();
+				btn_msg = send_btns();
 				can_send(&btn_msg);
+				
+				_delay_ms(50);
+				
+				slide_msg = send_sliders();
+				printf("slider 1 %d slider 2 %d\n",slide_msg.data[0],slide_msg.data[1]);
+				can_send(&slide_msg);
+				
+				
 				
 				
 				
@@ -267,8 +313,19 @@ int main(void)
 					
 				}
 				if(joy_read_x() > 50 && line == 1) {	//PLAY GAME menu
-					gameLive = 1;
+					gameLive = 1;		
 					
+				}
+				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 1 menu
+					diff = 10;							//LIFE amount
+					
+				}
+				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 2 menu
+					diff = 5;
+					
+				}
+				if(joy_read_x() > 50 && line == 1) {	//DIFFICULITY 3 menu
+					diff = 3;
 					
 				}
 
