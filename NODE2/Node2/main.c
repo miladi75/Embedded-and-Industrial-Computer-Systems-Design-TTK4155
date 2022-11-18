@@ -54,32 +54,9 @@ int main(void)
 	
 	
 	
-	//motor_disable();
 	motor_enable();
 	
 	
-	
-	
-	//set_servo_pos(1);
-	
-	//test code solenoid
-	//Solenoid_init();
-	//
-	//PIOA->PIO_CODR |= PIO_PA16;//pulse
-	//delay_ms(10);
-	//PIOA->PIO_SODR |= PIO_PA16;
-	 //test code end
-	
-	CAN_MESSAGE msg;
-		msg.id = 5;
-		msg.data_length = 4;
-		msg.data[0] = 'h';
-		msg.data[1] = 'e';
-		msg.data[2] = 'i';
-		msg.data[3] = 't';
-		can_send(&msg,0);
-		
-		//return msg;
 		
 		
 	
@@ -93,20 +70,20 @@ int main(void)
 	//test();
 	//message = CAN0_Handler();
 	
-	if (CAN_use()== 10)
-	{
-		CAN_MESSAGE msg_1;
-		msg_1.id = 2;
-		msg_1.data_length = 4;
-		msg_1.data[0] = 't';
-		msg_1.data[1] = 't';
-		msg_1.data[2] = 't';
-		msg_1.data[3] = 't';
-		
-		can_send(&msg_1,0);
-		
-		printf("msg sent");
-	}
+// 	if (CAN_use()== 10)
+// 	{
+// 		CAN_MESSAGE msg_1;
+// 		msg_1.id = 2;
+// 		msg_1.data_length = 4;
+// 		msg_1.data[0] = 't';
+// 		msg_1.data[1] = 't';
+// 		msg_1.data[2] = 't';
+// 		msg_1.data[3] = 't';
+// 		
+// 		can_send(&msg_1,0);
+// 		
+// 		printf("msg sent");
+// 	}
 	//can_send(&msg,0);
 	
 	
