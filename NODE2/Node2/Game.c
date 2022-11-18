@@ -41,6 +41,7 @@ uint8_t score_count(int button){
 		
 		
 		can_send(&msg,0);
+		motor_disable();
 		
 		//printf("msg data %c\n",msg.data[0]);
 		return 1;
@@ -60,12 +61,12 @@ uint8_t score_count(int button){
 		//
 		//can_send(&msg,0);
 // 		printf("msg data %d\n",msg.data[0]);
-	
+		motor_enable();
 	}
 	
 	if (counter == lives)
 	{
-		//printf("Game over");
+		printf("Game over");
 		
 		
 		
@@ -86,6 +87,8 @@ uint8_t score_count(int button){
 		//printf("------------->msg_1 %c\n",msg_1.data[0]);
 		
 		counter = 0;
+		motor_disable();
+		
 		return 0;
 		
 	}

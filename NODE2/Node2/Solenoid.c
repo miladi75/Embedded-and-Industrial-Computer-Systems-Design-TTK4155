@@ -17,15 +17,21 @@ void Solenoid_init(){
 	
 }
  volatile int flag = 0;
+ 
 void Solenoid_pulse(int button){
-	//printf("solenoid %d\n",button);
+	
 	if (button == 4 && flag == 0)
 	{
+// 		printf("test");
+// 		printf("solenoid %d\n",button);
+	
 		flag = 1;
+		//printf("-------------->flag %d \n",flag);
 	//pulse MÅ BYTTE TIL RIKTIG UTGANG
 		PIOA->PIO_CODR |= PIO_PA16;// clear PIO
 		delay_ms(100);						//MÅ SETTE RIKTIG DELAY
 		PIOA->PIO_SODR |= PIO_PA16; // set PIO
+		
 	}
 	else if(button != 4) {
 		
@@ -33,5 +39,6 @@ void Solenoid_pulse(int button){
 		//PIOA->PIO_SODR |= PIO_PA16;
 	}
 	
-	
+// 	
+// 		printf("flag %d\n",flag);
 }

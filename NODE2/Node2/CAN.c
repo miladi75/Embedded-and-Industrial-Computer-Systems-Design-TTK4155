@@ -44,16 +44,17 @@ if (message.id == 30){
 	//printf("btnL: %d  btnR: %d   slidel:%d    slideR: %d\n",message.data[0],message.data[1], message.data[2], message.data[3]);
 	
 	score_count(message.data[0]);//btn left
+	Solenoid_pulse(message.data[1]);
 	
-	if (score_count(message.data[0]) <= 0)
-	{
-		return 10;
-		printf("test score %d\n",score_count(message.data[0]));
-	}
+// 	if (score_count(message.data[0]) <= 0)
+// 	{
+// 		return 10;
+// 		printf("test score %d\n",score_count(message.data[0]));
+// 	}
 	
-	Solenoid_pulse(message.data[1]); //btn right
+	//printf("msg %d\n",message.data[1]);
 	
-	set_servo_pos(message.data[2]); //left slider
+	//set_servo_pos(message.data[2]); //left slider
 	
 	
 	
@@ -140,8 +141,8 @@ if (message.id == 50) // message used in testing
 if (message.id == 20)// joystick X and Y value
 {
 	//set_servo_pos(message.data[0]);
-	motor_run_joystick(message.data[0]);
-	//motor_joystick_PID(message.data[0]);
+	//motor_run_joystick(message.data[0]);
+	motor_joystick_PID(message.data[0]);
 	//joy_read_x(message.data[0]);
 	//printf("x:%d ------------->xcan:%d\n", joy_read_x(message.data[0]),message.data[0]);
 	
@@ -179,10 +180,12 @@ if (message.id == 20)// joystick X and Y value
 //}
 
 //********************************************************************************************************************
-//if (message.id == 40)
-//{
-//}
 
+if (message.id == 40)
+{
+	set_servo_pos(message.data[1]); //right slider
+	printf("msg %d", message.data[1]);
+}
 
 }
 	
