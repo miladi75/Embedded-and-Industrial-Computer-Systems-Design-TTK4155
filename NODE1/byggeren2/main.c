@@ -258,6 +258,8 @@ int main(void)
 			if (gameLive == 1) {
 				can_receive(&msg_n2);
 				
+				
+				
 				//oled_clear();
 				oled_pos(1,20);
 				oled_print("GAME LIVE!");
@@ -296,8 +298,10 @@ int main(void)
 				printf("slider 1 %d slider 2 %d\n",slide_msg.data[0],slide_msg.data[1]);
 				can_send(&slide_msg);
 				
-				
-				
+				//blink on last life
+				if(diff == counter+1){
+					oled_clear();
+				}
 				//oled_clear();
 				
 			}
