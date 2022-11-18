@@ -23,10 +23,12 @@ void PWM_init(void){
 	
 }
 
-void set_servo_pos(int value){
-	
+void PWM_servo_pos(int value){
+	//scaling value between needed value
 	volatile int temp_value =46 + value*120/127;//96 + value * 75/255;92 + value*96/255;
 	//printf("value %d \n",temp_value);
+	
+	//writing scaled value to register
 	REG_PWM_CDTY5 = temp_value;
 	
 	 //92 + value*98/255;//74

@@ -10,10 +10,10 @@
 #define SOLENOID_H_
 
 
-void Solenoid_init();
+void Solenoid_init(); // solenoid set-up (AP7 on shield)
 
 
-void Solenoid_pulse();
+void Solenoid_pulse(); //pulse on solenoid
 
 
 

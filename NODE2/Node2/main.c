@@ -3,7 +3,18 @@
  *
  * Created: 28.10.2022 11:45:03
  * Author : danie
- */ //svart kort bein mot vcc
+ * 
+ * uart.c
+ * Author: Gustav O. Often and Eivind H. Jølsgard
+ *
+ *
+ * can_controller.h
+ * Author: Gustav O. Often and Eivind H. J?lsgard
+ *
+ *
+ * printf-stdarg
+ * Edited 2020 by Eivind H. Jølsgard and Gustav O. Often for use in course TTK4155
+ */ 
 
 
 #include "sam.h"
@@ -21,6 +32,8 @@
 #include "Solenoid.h"
 #include "CAN.h"
 
+
+//svart kort bein mot vcc
 
 //#include <util/delay.h>
 
@@ -45,16 +58,12 @@ int main(void)
 	can_init_def_tx_rx_mb(0x00290165);
 	PWM_init();
 	ADC_init();
-	dac_init();
-	motor_init();
+	DAC_init();
+	Motor_init();
 	Solenoid_init();
-	pid_controller_init(35,20,1, 1/50, 2*0x4FF);
+	PI_controller_init();
 	//delay_init();
-	
-	
-	
-	
-	motor_enable();
+	Motor_enable();
 	
 	
 		

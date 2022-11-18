@@ -15,8 +15,7 @@
 
 
 
-void motor_init() {
-	dac_init();
+void Motor_init() {
 
 	// enable PIOD pins to motor box as output
 	PIOD->PIO_PER |= PIO_PD10 | PIO_PD9 | PIO_PD2 | PIO_PD1 | PIO_PD0;
@@ -32,7 +31,7 @@ void motor_init() {
 }
 
 
-void motor_run_joystick(int x_level) {
+void Motor_run_joystick(int x_level) {
 	//printf("\nxlevel%d\n",x_level); // for testing
 	int joystick_value = joy_read_x(x_level);//convert from 0 -> 205 to -100 -> 100
 	
@@ -47,20 +46,20 @@ void motor_run_joystick(int x_level) {
 	uint16_t speed = (uint16_t) 2*(0x4FF * abs(joystick_value) / 100);
 	
 	//printf("\nspeed:%d\n",speed); //for testing
-	dac_write(speed); 
+	DAC_write(speed); 
 }
 
-void motor_disable() {
-	dac_write(0);//set motor speed to 0
+void Motor_disable() {
+	DAC_write(0);//set motor speed to 0
 	PIOD->PIO_CODR = PIO_PD9;
 }
 
-void motor_enable() {
+void Motor_enable() {
 	PIOD->PIO_SODR = PIO_PD9;
 }
 
 
-int motor_encoder(){
+int Motor_encoder(){
 	
 	PIOD->PIO_CODR |= PIO_PD0; //!EO (output encoder)
 
@@ -84,8 +83,8 @@ int motor_encoder(){
 
 	PIOD->PIO_SODR |= PIO_PD0; //!OE disable output
 	
-	PIOD->PIO_CODR |= PIO_PD1;//reseting encoder
-	PIOD->PIO_SODR |= PIO_PD1;
+ 	PIOD->PIO_CODR |= PIO_PD1;//reseting encoder
+ 	PIOD->PIO_SODR |= PIO_PD1;
 	
 	uint16_t encoder_data = ((msb << 8) | lsb);
 	if (encoder_data & (1 << 15)) {
@@ -96,26 +95,28 @@ int motor_encoder(){
 	
 }
 
-static int scale_encoder_value(int value) {
-	return 100 * value / (8800 - 0);//max value * value / max encoder value- min encoder value
+static int Motor_scale_encoder_value(int value) {
+	return 200 * value / (8500);//max value * value / max encoder value - min encoder value
 }
 
 
-void motor_joystick_PID(int reference) {
-	int encoder_value = motor_encoder();
-	int current_position = scale_encoder_value(encoder_value);
-	int reference_value = joy_read_x(reference);
-	int u = pid_controller(reference_value, current_position);
+void Motor_joystick_PID(int reference) {
+	int encoder_value = Motor_encoder();
+	int current_position = encoder_value; //scale_encoder_value(encoder_value);
+	//int test_joy = abs(joy_read_x(reference));
+	int scaled_value = Motor_scale_encoder_value(encoder_value);
+	int reference_value = reference;
+	int u = PI_controller(reference_value, scaled_value);
 	
-	printf("u-ref: %d --------->refrence%d -------------------->encoder:%d\n",u-reference_value,reference_value, encoder_value);
+	//printf("u: %d ---->refrence %d ---->encoder:%d ---> scale encoder %d ---> test_joy %d\n",u,reference_value, encoder_value,test_value,test_joy);
 	//printf("reference: %d		encoder_value:%d\n U value%d\n",reference_value,current_position,u);
 	if (u > 0) {
 		PIOD->PIO_SODR = PIO_PD10;// set dir right
-		dac_write(u); //motor speed
+		DAC_write(u); //write speed to motor
 	}
 	else {
 		PIOD->PIO_CODR = PIO_PD10;//set dir left
-		dac_write(-u); //motor speed
+		DAC_write(-u); //Write speed to motor
 		
 	}
 }

@@ -10,7 +10,7 @@
 #define CAN_H_
 
 
-uint8_t CAN_use(void);
+uint8_t CAN_use(void); // simple ID check
 
 
 

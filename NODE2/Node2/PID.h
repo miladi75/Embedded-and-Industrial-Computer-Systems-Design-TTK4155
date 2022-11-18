@@ -9,16 +9,23 @@
 #ifndef PID_H_
 #define PID_H_
 
+
+//define PI variables
 typedef struct {
 	float Kp;
 	float Ki;
-	float Kd;
 	int sum_error;
 	int prev_error;
 	float T;
 	int max_u;
 } PID_DATA;
 
+
+int PI_controller(int ref, int current_value); // PI controller for use
+
+
+
+void PI_controller_init(void); // first set-up with PI values
 
 
 
