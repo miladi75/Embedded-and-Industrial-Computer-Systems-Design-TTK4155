@@ -9,9 +9,9 @@
 #ifndef PWM_H_
 #define PWM_H_
 
-void PWM_init(void);
+void PWM_init(void); //PWM signal set-up
 
-void set_servo_pos(int value);
+void PWM_servo_pos(int value); //variable PWM for servo position 
 
 
 #endif /* PWM_H_ */

@@ -9,9 +9,9 @@
 #ifndef DAC_H_
 #define DAC_H_
 
-void dac_init();
+void DAC_init();//first DAC set-up
 
-void dac_write(uint16_t data);
+void DAC_write(uint16_t data);//write with DAC
 
 
 

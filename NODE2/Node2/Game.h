@@ -9,7 +9,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-uint8_t score_count(int button);
+uint8_t Game_score_count(int button);
 
 uint8_t game_state();
 

@@ -9,17 +9,19 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
-void motor_init();
+void Motor_init();
 
-void motor_run_joystick(int joystick_value);
+void Motor_run_joystick(int joystick_value);
 
-void motor_disable();
+void Motor_disable();
 
-void motor_enable();
+void Motor_enable();
 
-int motor_encoder();
+int Motor_encoder();
 
-void motor_joystick_PID(int reference);
+void Motor_joystick_PID(int reference);
+
+static int Motor_scale_encoder_value(int value);
 
 
 #endif /* MOTOR_H_ */

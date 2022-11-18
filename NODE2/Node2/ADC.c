@@ -12,18 +12,18 @@
 #define F_CPU 84000000L
 #define __SAM3X8E__
 
-
-void busyWait(){
-	for(long unsigned int i =0 ; i< 1000000000; i++){
-		;
-	}
-}
-
-void delay(void) {
-    uint16_t t;
-    for (t = 0; t < F_CPU/4; t++)
-        __asm__ volatile("nop\n\t"); // busy wait
-}
+// 
+// void busyWait(){
+// 	for(long unsigned int i =0 ; i< 1000000000; i++){
+// 		;
+// 	}
+// }
+// 
+// void delay(void) {
+//     uint16_t t;
+//     for (t = 0; t < F_CPU/4; t++)
+//         __asm__ volatile("nop\n\t"); // busy wait
+// }
 
 void ADC_init(void){
 	
