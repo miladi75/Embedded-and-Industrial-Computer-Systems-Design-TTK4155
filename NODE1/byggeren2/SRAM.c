@@ -1,15 +1,16 @@
 /*
  * SRAM.c
  *
- * Created: 10/20/2022 11:29:37 AM
- *  Author: seyed
+ *	Created: 10/20/2022 11:29:37 AM
+ *	Most of this module was given as part of excercise 3
+ *  Author: jesus
  */ 
 #include <stdio.h>
 #include <avr/io.h>
 #include <stdlib.h>
 
 #include "SRAM.h"
-#define BASE_ADDRESS 0x1800
+#define SRAM_BASE_ADDRESS 0x1800
 
 void SRAM_init(void) {
 	MCUCR |= (1 << SRE);
@@ -53,12 +54,12 @@ void SRAM_test(void)
 }
 
 void xmem_write ( uint8_t data , uint16_t addr ){
-	volatile char * ext_mem = ( char *) BASE_ADDRESS ;
+	volatile char * ext_mem = ( char *) SRAM_BASE_ADDRESS ;
 	_delay_us(20);
 	ext_mem [ addr ]= data ;
 }
 uint8_t xmem_read ( uint16_t addr ){
-	volatile char * ext_mem = ( char *) BASE_ADDRESS ;
+	volatile char * ext_mem = ( char *) SRAM_BASE_ADDRESS ;
 	//_delay_us(200);
 	uint8_t ret_val = ext_mem [ addr ];
 	return ret_val ;

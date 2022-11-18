@@ -10,21 +10,21 @@
 #define SPI_H_
 
 
-void spi_master_init();
+void SPI_master_setup();
 
 
-void spi_slave_init();
+void SPI_slave_setup();
 
 
-void spi_write(char cData);
+void SPI_write_reg(char cData);
 
 
-uint8_t spi_read();
+uint8_t SPI_read_status();
 
-void spi_set_ss();
+void SPI_set_ss();
 
 
-void spi_clear_ss();
+void SPI_clear_ss();
 
 
 

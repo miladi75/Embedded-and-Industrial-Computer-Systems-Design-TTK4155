@@ -11,52 +11,52 @@
 #include "MCP2515.h"
 #include <stdio.h>
 
-#define DDR_SPI DDRB
-#define DD_SS PB4
-#define DD_MOSI PB5
-#define DD_MISO PB6
-#define DD_SCK PB7
+#define DATA_DIR_SPI DDRB
+#define DATA_DIR_SS PB4
+#define DATA_DIR_MOSI PB5
+#define DATA_DIR_MISO PB6
+#define DATA_DIR_SCK PB7
 
-void spi_master_init() {
-	// Set MOSI and SCK - og chipS(ss) - output, all others input
-	DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK)|(1<<DD_SS);
-	// Enable SPI, Master, set clock rate fck/16
-	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0)|(1<<SPIE);
-	spi_set_ss();
+void SPI_master_setup() {
+	//setup SPI master
+	DATA_DIR_SPI = (1 << DATA_DIR_MOSI) | ( 1<< DATA_DIR_SCK) | ( 1 << DATA_DIR_SS);
+	SPCR = (1 << SPE) | ( 1<< MSTR) | (1<< SPR0) | (1<<SPIE);
+	SPI_set_ss();
 }
 
-void spi_slave_init() {
-	// Set MISO output, all others input
-	DDR_SPI = (1<<DD_MISO);
-	// Enable SPI
+void SPI_slave_setup() {
+	// Enable SPI Control register and set bit 6 on spi control register
+	
+	DATA_DIR_SPI = (1<<DATA_DIR_MISO);
+	
 	SPCR = (1<<SPE);
 }
 
-void spi_write(char cData) {
-	// Start transmission
+void SPI_write_reg(char cData) {
+	
+	//write data to spi_register and wait for it to finish
 	SPDR = cData;
-	// Wait for transmission complete
 	while(!(SPSR & (1<<SPIF))) {
 	}
 }
 
-uint8_t spi_read() {
-	SPDR = 0xFF; //0x00
-	// Wait for reception complete
+uint8_t SPI_read_status() {
+	SPDR = 0xFF; 
 	while(!(SPSR & (1<<SPIF))) {
 	}
-	// Return data register
 	return SPDR;
 	
 
 }
 
-void spi_set_ss() {
-	PORTB |= (1 << DD_SS);
-	//(PORTB |= (1 << DD_SS));
+void SPI_set_ss() {
+	//Set slave select on spi data register
+	PORTB |= (1 << DATA_DIR_SS);
+	
 }
 
-void spi_clear_ss() {
-	PORTB &= ~(1 << DD_SS);
+void SPI_clear_ss() {
+	//clear slave select on spi data register
+	PORTB &= ~(1 << DATA_DIR_SS);
 	
 }

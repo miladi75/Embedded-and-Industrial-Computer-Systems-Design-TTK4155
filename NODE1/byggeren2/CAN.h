@@ -9,20 +9,15 @@
 #ifndef CAN_H_
 #define CAN_H_
 
-/**
- * @file
- * @brief A driver for the CAN which implements communication between nodes over CAN.
- */
 
 #include <avr/io.h>
 #include "JOYSTICK.h"
-/**
- * @struct A struct with the id, length of the data, and the data of the message.
- */
+
 typedef struct Message {
-	uint8_t id; /**< The id of the message */
-	uint8_t length;  /**< The length of the data bytes of the message */
-	int8_t  data[8];    /**< The data of the message */
+	uint8_t id; 
+	uint8_t length;  
+	int8_t  data[8];    
+
 } message_t;
 
 //Coordinate type to store an integer pair
@@ -31,61 +26,31 @@ typedef struct {
 	uint16_t y;
 }coord_t;
 
-// CAN ID's for messages sent from node1
-enum {
-	MSG1_SET_MODE = 100,
-	MSG1_GAME_VALUES = 101,
-	MSG1_GAME_STOP = 102,
-	MSG1_CONTROLLER_PARAMETERS = 103,
-	MSG1_INPUT_SOURCE = 104,
-	MSG1_DIFFICULTY = 105
-};
-
-// CAN ID's for messages received from node2
-enum {
-	MSG2_MODE_RESPONSE = 200,
-	MSG2_FAIL_INGAME = 201,
-	MSG2_SCORE_TOTAL = 202,
-	MSG2_GAME_FAILED = 203
-};
-
-/**
- * @brief Initializes the CAN by calling the function mcp_init.
- */
-void can_init();
-
-/**
- * @brief Sends a message to the nodes over CAN. Sets the 11-bit message-id by setting the 8 higher bits in the TXB0SIDH register
- * and the 3 lower bits in the TXB0SIDL register of the MCP2515, sets the number of data bytes to be transmitted in the
- * TXB0DLC register, and writes data bytes to the TXBnDm register(s).
- * @param[in] message Takes a pointer to the Message-struct we would like to send.
- */
-void can_send(message_t *message);
 
 
-/**
- * @brief Reads a message sent over CAN. Assembles the id of the received message by reading the 8 higher bits in the RXB0SIDL register
- * and the 3 lower bits in the RXB0SIDH register, reads the number of data bytes transmitted by reading the RXB0DLC register, and reads the data bytes
- * from the RXBnDm register(s).
- * @return The data byte(s) of the received message from the RXBnDm register(s).
- */
-void can_receive(message_t *msg);
+
+
+void CAN_init();
+
+
+void CAN_receive_msg(message_t *msg);
+
+
+void CAN_send_msg(message_t *message);
 
 //send joystick via can
-message_t send_joystick_can(joystick_dir_t dir, uint8_t can_id);
+message_t CAN_send_joystick(joystick_dir_t dir, uint8_t can_id);
 
 //send string message over can
-message_t can_send_string(char* c, uint8_t size, uint8_t can_id);
+message_t CAN_send_string(char* c, uint8_t size, uint8_t can_id);
 
 
+message_t CAN_send_clicked_btn();
 
 
-message_t send_clicked_btn();
+message_t CAN_send_coord();
 
-
-message_t coord_via_CAN();
-
-void can_receive_n2(message_t *msg);
+void CAN_receive_n2(message_t *msg);
 
 
 

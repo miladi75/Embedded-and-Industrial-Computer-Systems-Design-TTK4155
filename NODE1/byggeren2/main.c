@@ -2,7 +2,7 @@
  * byggeren2.c
  *
  * Created: 10/20/2022 11:22:01 AM
- * Author : seyed
+ * Author : Group-33
  */ 
 
 #include <avr/io.h>
@@ -39,28 +39,28 @@ volatile int diff = 3;
 
 /**
 IR sensor(svart) langt bein VCC
-Hvit-Sensor: langt bein på VCC
+Hvit-Sensor: langt bein pï¿½ VCC
 
 */
 
 
 void simple_temp_menu(){
-	if (joy_read_x() < -50 && menu > 0) {
+	if (joystick_read_xVal() < -50 && menu > 0) {
 				menu--;
-				oled_clear();
+				OLED_clear();
 			}
 			if (menu == 0) {
-				oled_simple_menu();
+				OLED_simple_menu();
 			}	
 				
-			if (joy_read_y() < -50 && line < 7) {		
+			if (joystick_read_yVal() < -50 && line < 7) {		
 				line++;
 				OLED_print_arrow(line,0);
 				OLED_clear_arrow(line-1,0);	
 				_delay_ms(500);	
 			}
 			
-			if (joy_read_y() > 50 && line > 0) {
+			if (joystick_read_yVal() > 50 && line > 0) {
 				line--;
 				OLED_print_arrow(line,0);
 				OLED_clear_arrow(line+1,0);		
@@ -68,18 +68,18 @@ void simple_temp_menu(){
 	
 			}
 			
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();		
+			if(joystick_read_xVal() > 50 && line == 5) {	//Higscore menu
+				OLED_highscores();		
 				menu = 1;
 					
 			}
-			if(joy_read_x() > 50 && line == 2) {	//PLAY GAME menu
-				oled_highscores();
+			if(joystick_read_xVal() > 50 && line == 2) {	//PLAY GAME menu
+				OLED_highscores();
 				menu = 1;
 				
 			}
-			if(joy_read_x() > 50 && line == 5) {	//Higscore menu
-				oled_highscores();
+			if(joystick_read_xVal() > 50 && line == 5) {	//Higscore menu
+				OLED_highscores();
 				
 			}
 }
@@ -88,8 +88,8 @@ message_t send_btns(){
 	message_t msg;
 	msg.length = 4;
 	msg.id = 30;
-	int l_slide_btn = buttons_slide_l();
-	int r_slide_btn = buttons_slide_r();
+	int l_slide_btn = button_left();
+	int r_slide_btn = button_right();
 	
 	msg.data[0] = l_slide_btn;
 	msg.data[1] = r_slide_btn;
@@ -102,8 +102,8 @@ message_t send_sliders(){
 	message_t msg;
 	msg.length = 4;
 	msg.id = 40;
-	volatile int slider_l = slide_read_l();
-	volatile int slider_r = slide_read_r();
+	volatile int slider_l = joystick_slider_readLeft();
+	volatile int slider_r = joystick_slider_readRight();
 	
 	msg.data[0] = slider_l;
 	msg.data[1] = slider_r;
@@ -135,21 +135,21 @@ int main(void)
 {
 	srand((unsigned int)time(NULL));
 	
-	oled_write_command(0x81);
-	oled_write_command(0b1111111);
-	oled_write_command(0xe3);
+	OLED_write_cmd(0x81);
+	OLED_write_cmd(0b1111111);
+	OLED_write_cmd(0xe3);
 	//oled_write_command(0b1111111);
-	oled_write_command(0xaf); //Turn on LCD screen
-	oled_write_command(0x20); // set memory addressing mode
-	oled_write_command(0b10); // set page addressing mode
-	oled_write_command(0x2a);
-	oled_write_command(0xae);
+	OLED_write_cmd(0xaf); //Turn on LCD screen
+	OLED_write_cmd(0x20); // set memory addressing mode
+	OLED_write_cmd(0b10); // set page addressing mode
+	OLED_write_cmd(0x2a);
+	OLED_write_cmd(0xae);
 	
 	UART_init(MYUBRR);
 	SRAM_init();
 	clk(0);
-	oled_clear();
-	oled_init();
+	OLED_clear();
+	OLED_init();
 	
 	//xmem_read();
 	//xmem_write();
@@ -174,14 +174,14 @@ int main(void)
 	//// Setter MCP i loopbackmodus og sjekker CANSTAT:
 	//mcp_set_mode(MODE_LOOPBACK);
 	//printf("mode: %x\r\n", mcp_read(MCP_CANSTAT));
-	//// Når MCP står i loopbackmodus skal CANSTAT være 0b01000000 aka 0x40
+	//// Nï¿½r MCP stï¿½r i loopbackmodus skal CANSTAT vï¿½re 0b01000000 aka 0x40
 //
 	//// Skriver en tilfeldig byte (0xA7) til MCP-sendebuffer0 og leser fra mottaksbuffer0
-	//// Her bør man lese det samme som man sender så lenge MCPen står i loopbackmodus.
+	//// Her bï¿½r man lese det samme som man sender sï¿½ lenge MCPen stï¿½r i loopbackmodus.
 	//mcp_write(MCP_TXB0SIDH, 0xA7); // Skriver 0xA7 til sende-buffer nr. 0
-	//mcp_request_to_send(0); // Sender 0xA7 fra bufferen ut på CAN-bussen
+	//mcp_request_to_send(0); // Sender 0xA7 fra bufferen ut pï¿½ CAN-bussen
 	//uint8_t byte = mcp_read(MCP_RXB0SIDH); // Leser fra mottaksbuffer nr. 0
-	//printf("mottar: %x\r\n", byte); //Skal være samme som man sender, altså 0xA7
+	//printf("mottar: %x\r\n", byte); //Skal vï¿½re samme som man sender, altsï¿½ 0xA7
 	
 	//spi_set_ss();
 	//spi_clear_ss;
@@ -201,8 +201,8 @@ int main(void)
 
 	
 	
-	can_init(); //
-	mcp_set_mode(MODE_NORMAL); //mode_loopback 0x40	
+	CAN_init(); //
+	MCP_set_mode(MODE_NORMAL); //mode_loopback 0x40	
 	
 
 	 message_t message;
@@ -244,11 +244,11 @@ int main(void)
 			if(msg_n2.data[0] == 't'){
 				gameLive = 0;
 // 				printf("ok msg");
-				can_receive(&msg_n2);
+				CAN_receive_msg(&msg_n2);
 		
 			}
 			
-			if (button_lives(buttons_slide_l(),diff) == 1){
+			if (button_lives(button_left(),diff) == 1){
 				gameLive = 0;
 				counter = 0;
 				//oled_clear();
@@ -256,51 +256,51 @@ int main(void)
 			
 				
 			if (gameLive == 1) {
-				can_receive(&msg_n2);
+				CAN_receive_msg(&msg_n2);
 				
 				
 				
 				//oled_clear();
-				oled_pos(1,20);
-				oled_print("GAME LIVE!");
-				oled_pos(4,30);
-				oled_print("LIVES: ");
-				oled_pos(4, 80);
+				OLED_set_pos(1,20);
+				OLED_write_str("GAME LIVE!");
+				OLED_set_pos(4,30);
+				OLED_write_str("LIVES: ");
+				OLED_set_pos(4, 80);
 				
 				if(diff-counter == 1){
-					oled_print("1");
+					OLED_write_str("1");
 				}
 				if(diff-counter == 2){
-					oled_print("2");
+					OLED_write_str("2");
 				}
 				if(diff-counter == 3){
-					oled_print("3");
+					OLED_write_str("3");
 				}
 				if(diff-counter == 4){
-					oled_print("4");
+					OLED_write_str("4");
 				}
 				if(diff-counter == 5){
-					oled_print("5");
+					OLED_write_str("5");
 				}
 				
 				
-				message = coord_via_CAN();
-				can_send(&message);
+				message = CAN_send_coord();
+				CAN_send_msg(&message);
 				
 				_delay_ms(50);
 				
 				btn_msg = send_btns();
-				can_send(&btn_msg);
+				CAN_send_msg(&btn_msg);
 				
 				_delay_ms(50);
 				
 				slide_msg = send_sliders();
 				printf("slider 1 %d slider 2 %d\n",slide_msg.data[0],slide_msg.data[1]);
-				can_send(&slide_msg);
+				CAN_send_msg(&slide_msg);
 				
 				//blink on last life
 				if(diff == counter+1){
-					oled_clear();
+					OLED_clear();
 				}
 				//oled_clear();
 				
@@ -308,24 +308,24 @@ int main(void)
 			
 			if (gameLive == 0) {
 				
-				can_receive(&msg_n2);
+				CAN_receive_msg(&msg_n2);
 				
-				if (joy_read_x() < -50 && menu > 0) {
+				if (joystick_read_xVal() < -50 && menu > 0) {
 					menu--;
-					oled_clear();
+					OLED_clear();
 				}
 				if (menu == 0) {
-					oled_simple_menu();
+					OLED_simple_menu();
 				}
 				
-				if (joy_read_y() < -50 && line < 7) {
+				if (joystick_read_yVal() < -50 && line < 7) {
 					line++;
 					OLED_print_arrow(line,0);
 					OLED_clear_arrow(line-1,0);
 					_delay_ms(500);
 				}
 				
-				if (joy_read_y() > 50 && line > 0) {
+				if (joystick_read_yVal() > 50 && line > 0) {
 					line--;
 					OLED_print_arrow(line,0);
 					OLED_clear_arrow(line+1,0);
@@ -333,26 +333,26 @@ int main(void)
 					
 				}
 				
-				if(joy_read_x() > 50 && line == 6) {	//Higscore menu
-					oled_highscores();
+				if(joystick_read_xVal() > 50 && line == 6) {	//Higscore menu
+					OLED_highscores();
 					menu = 1;
 					
 				}
-				if(joy_read_x() > 50 && line == 1) {	//PLAY GAME menu
+				if(joystick_read_xVal() > 50 && line == 1) {	//PLAY GAME menu
 					gameLive = 1;
 					counter = 0;
-					oled_clear();		
+					OLED_clear();		
 					
 				}
-				if(joy_read_x() > 50 && line == 3) {	//DIFFICULITY 1 menu
+				if(joystick_read_xVal() > 50 && line == 3) {	//DIFFICULITY 1 menu
 					diff = 10;							//LIFE amount
 					
 				}
-				if(joy_read_x() > 50 && line == 4) {	//DIFFICULITY 2 menu
+				if(joystick_read_xVal() > 50 && line == 4) {	//DIFFICULITY 2 menu
 					diff = 5;
 					
 				}
-				if(joy_read_x() > 50 && line == 5) {	//DIFFICULITY 3 menu
+				if(joystick_read_xVal() > 50 && line == 5) {	//DIFFICULITY 3 menu
 					diff = 3;
 					
 				}

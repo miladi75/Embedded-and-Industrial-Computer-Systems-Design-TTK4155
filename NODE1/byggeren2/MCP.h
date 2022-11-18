@@ -10,30 +10,30 @@
 #define MCP_H_
 
 
-void mcp_init();
+void MCP_setup();
 
 
-uint8_t mcp_read(uint8_t address);
+uint8_t MCP_read_addr(uint8_t this_addr);
 
 
-void mcp_write(uint8_t address, char data);//uint8_t
+void MCP_write_data_SPI(uint8_t this_addr, char data);
 
 
-void mcp_request_to_send(int buffer_number);
+void MCP_reg_data_wr(int buffer_number);
 
 
-char mcp_read_status();
+char MCP_rd_wr_instr();
 
 
-void mcp_bit_modify(uint8_t address, uint8_t mask, uint8_t data);
+void MCP_modify_wr_instr(uint8_t this_addr, uint8_t mask, uint8_t data);
 
 
-void mcp_reset();
+void MCP_reset_SPI();
 
-void mcp_set_mode(uint8_t mode);
+void MCP_set_mode(uint8_t mode);
 
 
- char mcp_get_mode();
+
 
 
 

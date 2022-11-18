@@ -12,19 +12,19 @@
 #include <avr/pgmspace.h>
 #include <string.h>
 
-void show_highscore();void oled_write_command(int command);//void oled_write_command(int command);void oled_write_data(int data) ;void oled_init();
-void oled_clear();
+void OLED_show_highscore();void OLED_write_cmd(int command);//void oled_write_command(int command);void OLED_write_buff_data(int data) ;void OLED_init();
+void OLED_clear();
 
 
-void oled_goto_line(int n);
-void oled_goto_column(int column);
+void OLED_line_nav(int n);
+void OLED_col_set(int column);
 
-void oled_pos(int line, int coll);
+void OLED_set_pos(int line, int coll);
 int pos2menu(int line, int col);
 
-void oled_print_char(char ch);
+void OLED_write_ch(char ch);
 
-void oled_print( char ch[]);
+void OLED_write_str( char ch[]);
 
 
 

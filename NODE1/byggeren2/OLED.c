@@ -7,89 +7,82 @@
 #include "OLED.h"
 #include "FONTS.h"
 
-
-
-void show_highscore() { oled_print("test");/* Viser highscore */ }void oled_write_command(int command) {
+void OLED_show_highscore() { OLED_write_str("test");/* Viser highscore */ }void OLED_write_cmd(int command) {
 	volatile char *ext_oled_command = (char *) 0x1000;
 	ext_oled_command[0] = command;
-}void oled_write_data(int data) {
-	volatile char *ext_oled_data = (char *) 0x1200;
-	ext_oled_data[0] = data;
-}void oled_init() {
-	//oled_write_command(0xae); // display off
-	oled_write_command(0xa1); //segment remap
-	oled_write_command(0xda); //common pads hardware: alternative
-	oled_write_command(0x12);
-	oled_write_command(0xc8); //common output scan direction:com63~com0
-	oled_write_command(0xa8); //multiplex ration mode:63
-	oled_write_command(0x3f);
-	oled_write_command(0xd5); //display divide ratio/osc. freq. mode
-	oled_write_command(0x80);
-	oled_write_command(0x81); //contrast control
-	oled_write_command(0x50);
-	oled_write_command(0xd9); //set pre-charge period
-	oled_write_command(0x21);
-	oled_write_command(0x20); //Set Memory Addressing Mode
-	oled_write_command(0x02);//orginal
-	//oled_write_command(0b10);
-	oled_write_command(0xdb); //VCOM deselect level mode
-	oled_write_command(0x30);
-	oled_write_command(0xad); //master configuration
-	oled_write_command(0x00);
-	oled_write_command(0xa4); //out follows RAM content
-	oled_write_command(0xa6); //set normal display
-	oled_write_command(0xaf); // display on
+}void OLED_write_buff_data(int buf) {
+	volatile char *data_ext_offset = (char *) 0x1200;
+	data_ext_offset[0] = buf;
+}void OLED_init() {
+	//different command to from OLED datasheet manual
+	OLED_write_cmd(0xa1); //segment remap
+	OLED_write_cmd(0xda); //common pads hardware: alternative
+	OLED_write_cmd(0x12);
+	OLED_write_cmd(0xc8); //common output scan direction:com63~com0
+	OLED_write_cmd(0xa8); //multiplex ration mode:63
+	OLED_write_cmd(0x3f);
+	OLED_write_cmd(0xd5); //display divide ratio/osc. freq. mode
+	OLED_write_cmd(0x80);
+	OLED_write_cmd(0x81); //contrast control
+	OLED_write_cmd(0x50);
+	OLED_write_cmd(0xd9); //set pre-charge period
+	OLED_write_cmd(0x21);
+	OLED_write_cmd(0x20);//Set Memory Addressing Mode
+	OLED_write_cmd(0x02);	
+	OLED_write_cmd(0xdb); 
+	OLED_write_cmd(0x30);
+	OLED_write_cmd(0xad); //master configuration
+	OLED_write_cmd(0x00);
+	OLED_write_cmd(0xa4); //out follows RAM content
+	OLED_write_cmd(0xa6); //set normal display
+	OLED_write_cmd(0xaf); // display on
 }
 
-void oled_clear(){
+void OLED_line_nav(int n){
+	OLED_write_cmd(0xB0 + n);
+}
+
+void OLED_col_set(int col) {
+	OLED_write_cmd(0x00 + (col % 16));
+	OLED_write_cmd(0x10 + (col / 16));
+}
+
+
+
+void OLED_clear(){
 	for (int line = 0; line < 8; line++) {
-		oled_goto_line(line);
-		oled_goto_column(0);
+		OLED_line_nav(line);
+		OLED_col_set(0);
 		for (int i = 0; i < 128; i++) {
-			oled_write_data(0b00000000);
+			OLED_write_buff_data(0b00000000);
 		}
 	}
 }
 
 
 
-void oled_goto_line(int n){
-	oled_write_command(0xB0 + n);
-}
 
-void oled_goto_column(int column) {
-	oled_write_command(0x00 + (column % 16)); // Lower nibble
-	oled_write_command(0x10 + (column / 16)); // Higher nibble
-}
-
-void oled_pos(int line, int coll){
-	oled_goto_line(line);
-	oled_goto_column(coll);
+void OLED_set_pos(int line, int coll){
+	OLED_line_nav(line);
+	OLED_col_set(coll);
 	
 }
 
-//int pos2menu(int line){
-	//switch(line){
-		//case 0:
-			//
-	//}
-//}
 
-
-void oled_print_char(char ch) {
+void OLED_write_ch(char ch) {
 	ch -= 32;
 	for (int i = 0; i < 8; i++) {
 		//change of font8[ch][i] to font8[12][i]
-		int byte = pgm_read_byte(&font8[ch][i]);
-		oled_write_data(byte);
+		int curr_byte = pgm_read_byte(&font8[ch][i]);
+		OLED_write_buff_data(curr_byte);
 	}
 }
 
-void oled_print( char ch[]) {
+void OLED_write_str( char ch[]) {
 	
 	for (int i = 0; i < strlen(ch); i++) {
 		
-		oled_print_char(ch[i]);
+		OLED_write_ch(ch[i]);
 	}
 }
 
@@ -98,20 +91,20 @@ void oled_print( char ch[]) {
 
 void OLED_print_arrow ( int row , int col )
 {
-	oled_pos( row , col );
-	oled_write_data (0b00011000 );
-	oled_write_data (0b00011000 );
-	oled_write_data (0b01111110 );
-	oled_write_data (0b00111100 );
-	oled_write_data (0b00011000 );
+	OLED_set_pos( row , col );
+	OLED_write_buff_data (0b00011000 );
+	OLED_write_buff_data (0b00011000 );
+	OLED_write_buff_data (0b01111110 );
+	OLED_write_buff_data (0b00111100 );
+	OLED_write_buff_data (0b00011000 );
 }
 
 void OLED_clear_arrow ( int row , int col )
 {
-	oled_pos( row , col );
-	oled_write_data (0b00000000 );
-	oled_write_data (0b00000000 );
-	oled_write_data (0b00000000 );
-	oled_write_data (0b00000000 );
-	oled_write_data (0b00000000 );
+	OLED_set_pos( row , col );
+	OLED_write_buff_data (0b00000000 );
+	OLED_write_buff_data (0b00000000 );
+	OLED_write_buff_data (0b00000000 );
+	OLED_write_buff_data (0b00000000 );
+	OLED_write_buff_data (0b00000000 );
 }

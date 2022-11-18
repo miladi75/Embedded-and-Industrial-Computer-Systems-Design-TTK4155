@@ -18,7 +18,7 @@ typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL} joystick_dir_t;
 
 void clk (int max);
 
-void test_joystick(uint16_t addr );
+void joystick_debugg(uint16_t addr );
 
 
 void joyslide_pos (uint16_t addrx);
@@ -26,28 +26,24 @@ void joyslide_pos (uint16_t addrx);
 //int joystick_pos();
 joystick_dir_t joystick_pos(void);
 
-int joy_click();
+int joystick_clickBtn_read();
 
-int joy_read_x();
+int joystick_read_xVal();
 
-int joy_read_y();
+int joystick_read_yVal();
 
-int slide_read_l();
+int joystick_slider_readLeft();
 
-int slide_read_r();
-
-
-void print_dir_type(joystick_dir_t dir);
+int joystick_slider_readRight();
 
 
-int buttons_slide_l();
+void joystick_dir_debugg(joystick_dir_t dir);
 
 
-int buttons_slide_r();
+int button_left();
 
 
-int btn_left();
-int btn_right();
+int button_right();
 
 
 

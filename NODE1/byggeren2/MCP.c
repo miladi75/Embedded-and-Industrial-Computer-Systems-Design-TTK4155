@@ -12,76 +12,80 @@
 #include <util/delay.h>
 
 
-void mcp_init() {
-	spi_master_init();
-	mcp_reset();
-
+void MCP_setup() {
+	SPI_master_setup();
+	MCP_reset_SPI();
 	_delay_ms(1); 
 	
-	// Self-test.
-	uint8_t value = mcp_read(MCP_CANSTAT);
-	if ((value & MODE_MASK) != MODE_CONFIG) {
-		printf("MCP!config/MCP_CANSTAT %x \r\n", value);
+	uint8_t reg_val = MCP_read_addr(MCP_CANSTAT);
+	
+	//mcp mode check
+	if ((reg_val & MODE_MASK) != MODE_CONFIG) {
+		printf("MCP mode test %x \r\n", reg_val);
 	}
 }
 
-uint8_t mcp_read(uint8_t address) {
-	spi_clear_ss();
-	spi_write(MCP_READ);
-	spi_write(address);
-	uint8_t data = spi_read();
-	spi_set_ss();
+uint8_t MCP_read_addr(uint8_t this_addr) {
+	SPI_clear_ss();
+	SPI_write_reg(MCP_READ);
+	SPI_write_reg(this_addr);
+	uint8_t data = SPI_read_status();
+	SPI_set_ss();
 
 	return data;
 }
 
-void mcp_write(uint8_t address, char data) {//uint8_t
-	spi_clear_ss();
-	spi_write(MCP_WRITE);
-	spi_write(address);
-	spi_write(data);
-	spi_set_ss();
+void MCP_write_data_SPI(uint8_t this_addr, char data) {
+	SPI_clear_ss();
+	SPI_write_reg(MCP_WRITE);
+	SPI_write_reg(this_addr);
+	SPI_write_reg(data);
+	SPI_set_ss();
 }
 
-void mcp_request_to_send(int buffer_number) {
-	spi_clear_ss();
-	buffer_number = buffer_number % 3; // Map buffer number to 0, 1, 2 in case of number > 2
-	char data = MCP_RTS_TX0;
-	if (buffer_number == 0) {
-		data = MCP_RTS_TX0;
-		} else if (buffer_number == 1) {
-		data = MCP_RTS_TX1;
-		} else if (buffer_number == 2) {
-		data = MCP_RTS_TX2;
+void MCP_reg_data_wr(int val) {
+	SPI_clear_ss();
+	val %= 3;
+	
+	char reg_buf = MCP_RTS_TX0;
+	if (val == 0) {
+		reg_buf = MCP_RTS_TX0;
+		} else if (val == 1) {
+		reg_buf = MCP_RTS_TX1;
+		} else if (val == 2) {
+		reg_buf = MCP_RTS_TX2;
 	}
-	spi_write(data);
-	spi_set_ss();
+	SPI_write_reg(reg_buf);
+	SPI_set_ss();
 }
 
-char mcp_read_status() {
-	spi_clear_ss();
-	spi_write(MCP_READ_STATUS);
-	char data = spi_read();
-	spi_set_ss();
-
-	return data;
+void MCP_set_mode(uint8_t curr_mode) {
+	MCP_modify_wr_instr(MCP_CANCTRL, 0b11100000, curr_mode);
 }
 
-void mcp_bit_modify(uint8_t address, uint8_t mask, uint8_t data) {
-	spi_clear_ss();
-	spi_write(MCP_BITMOD);
-	spi_write(address);
-	spi_write(mask);
-	spi_write(data);
-	spi_set_ss();
+
+void MCP_modify_wr_instr(uint8_t this_addr, uint8_t data_mask, uint8_t curr_data) {
+	SPI_clear_ss();
+	SPI_write_reg(MCP_BITMOD);
+	SPI_write_reg(this_addr);
+	SPI_write_reg(data_mask);
+	SPI_write_reg(curr_data);
+	SPI_set_ss();
 }
 
-void mcp_reset() {
-	spi_clear_ss();
-	spi_write(MCP_RESET);
-	spi_set_ss();
+char MCP_rd_wr_instr() {
+	SPI_clear_ss();
+	SPI_write_reg(MCP_READ_STATUS);
+	char reg_data = SPI_read_status();
+	SPI_set_ss();
+
+	return reg_data;
 }
 
-void mcp_set_mode(uint8_t mode) {
-	mcp_bit_modify(MCP_CANCTRL, 0b11100000, mode);
+
+void MCP_reset_SPI() {
+	SPI_clear_ss();
+	SPI_write_reg(MCP_RESET);
+	SPI_set_ss();
 }
+

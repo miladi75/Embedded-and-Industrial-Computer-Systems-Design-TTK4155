@@ -14,15 +14,16 @@
 
 
 void clk (int max){
-	DDRD |= (1<< DDD4);//PD4 som output
-	TCCR3A |= (1<< COM3A0);
-	TCCR3B |= (1<< WGM32);
-	OCR3A = max;
-	TCCR3B |= (1<< CS30);
+	DDRD	|= (1<< DDD4);
+	TCCR3A	|= (1<< COM3A0);
+	TCCR3B	|= (1<< WGM32);
+	OCR3A	= max;
+	TCCR3B	|= (1<< CS30);
 }
 
-void test_joystick(uint16_t addr ){
-	volatile char *adc = (char *) 0x1400;//BASE_ADDRESS
+void joystick_debugg(uint16_t addr ){
+	//Offset base address: 0x1400
+	volatile char *adc = (char *) 0x1400;
 	adc[0] = addr;
 
 	_delay_us(20);
@@ -33,14 +34,14 @@ void test_joystick(uint16_t addr ){
 	_delay_ms(200);
 }
 
-int joy_click() {
+int joystick_clickBtn_read() {
 	DDRB &= ~(1 << DDB0);
 	return (PINB & (1 << DDB0));
 	
 }
 
 
-int joy_read_x() {
+int joystick_read_xVal() {
 	uint8_t addrx = 0b10000100;//left/right
 	volatile char *adc = (char *) 0x1400;
 	adc[0] = addrx;
@@ -59,7 +60,7 @@ int joy_read_x() {
 	return pos;
 }
 
-int joy_read_y() {
+int joystick_read_yVal() {
 	uint8_t addry = 0b10000001; //up/down
 	volatile char *adc = (char *) 0x1400;
 	adc[0] = addry;
@@ -78,7 +79,7 @@ int joy_read_y() {
 	return pos;
 }
 
-int slide_read_l() {
+int joystick_slider_readLeft() {
 	uint8_t addrsl = 0b10000011; //up/down
 	volatile char *adc = (char *) 0x1400;
 	adc[0] = addrsl;
@@ -93,7 +94,7 @@ int slide_read_l() {
 }
 
 
-int slide_read_r() {
+int joystick_slider_readRight() {
 	uint8_t addrsr = 0b10000010; //up/down
 	volatile char *adc = (char *) 0x1400;
 	adc[0] = addrsr;
@@ -108,8 +109,8 @@ int slide_read_r() {
 
 joystick_dir_t joystick_pos() {
 	
-	int x = joy_read_x();
-	int y = joy_read_y();
+	int x = joystick_read_xVal();
+	int y = joystick_read_yVal();
 	
 	if (abs(x) >= abs(y)){
 		if (abs(x) < 10){
@@ -136,7 +137,7 @@ joystick_dir_t joystick_pos() {
 	
 }
 
-
+//For debugging
 int getCurrentJoystickDirection(){
 	int joyPos = joystick_pos();
 	
@@ -145,7 +146,7 @@ int getCurrentJoystickDirection(){
 }
 
 
-void print_dir_type(joystick_dir_t dir){
+void joystick_dir_debugg(joystick_dir_t dir){
 	switch(dir){
 		case UP:
 		printf("\nUP\n");
@@ -169,28 +170,16 @@ void print_dir_type(joystick_dir_t dir){
 	}
 }
 
-int buttons_slide_l(){
+int button_left(){
 	//left button pin
 	return PINB & (1 << DDB1);
 }
 
 
-int buttons_slide_r(){
+int button_right(){
 	//left button pin
 	return PINB & (1 << DDB2);
 }
-
-int btn_left(){
-	DDRB &= ~(1 << DDB1);
-	return (PINB & (1 << DDB1));
-}
-
-
-int btn_right(){
-	DDRB &= ~(1 << DDB2);
-	return (PINB & (1 << DDB2));
-}
-
 
 
 
